@@ -7,8 +7,12 @@ void setup_SD() {
   //escritura inicial de cabecera del archivo csv
   if (!SD.exists("dataKKs.csv")) {
     myFile = SD.open("dataKKs.csv", FILE_WRITE);
-    myFile.println("Fecha,Hora,ID,%Rollo,Radio,Vueltas,Uso(cms)");
-    Serial.println("archivo main creado");
+    if (myFile) {
+      myFile.println("Fecha,Hora,ID,%Rollo,Radio,Vueltas,Uso(cms)");
+      Serial.println("archivo main creado");
+    } else {
+      Serial.println("Fallo de apertura main");
+    }
     myFile.close();
   } else {
     Serial.println("Archivo main ya existe");
@@ -16,8 +20,12 @@ void setup_SD() {
 
   if (!SD.exists("dataFiltroKKs.csv")) {
     myFile = SD.open("dataFiltroKKs.csv", FILE_WRITE);
-    myFile.println("Fecha,Hora,ID,%Rollo,Huella");
-    Serial.println("archivo temp creado");
+    if (myFile) {
+      myFile.println("Fecha,Hora,ID,%Rollo,Huella");
+      Serial.println("archivo temp creado");
+    } else {
+      Serial.println("Fallo de apertura temp");
+    }
     myFile.close();
   } else {
     Serial.println("Archivo temp ya existe");
