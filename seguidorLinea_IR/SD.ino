@@ -18,8 +18,8 @@ void setup_SD() {
     Serial.println("Archivo main ya existe");
   }
 
-  if (!SD.exists("dataFiltroKKs.csv")) {
-    myFile = SD.open("dataFiltroKKs.csv", FILE_WRITE);
+  if (!SD.exists("dataraw.csv")) {
+    myFile = SD.open("dataraw.csv", FILE_WRITE);
     if (myFile) {
       myFile.println("Fecha,Hora,ID,%Rollo,Huella");
       Serial.println("archivo temp creado");
@@ -64,7 +64,7 @@ void escritura_SD() {
 }
 
 void escritura_SD_temp() {
-  myFile = SD.open("dataFiltroKKs.csv", FILE_WRITE);
+  myFile = SD.open("dataraw.csv", FILE_WRITE);
   if (myFile) {
     //myFile.print(halada);
     //myFile.print(",");
