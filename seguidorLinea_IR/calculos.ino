@@ -14,8 +14,8 @@ void calculo() {
       Serial.print("Sensor: ");
       Serial.println(bool(huella));      
       vueltas_temp++;
-      escritura_SD_temp();
-      cronometro = millis();            
+      cronometro = millis();
+      escritura_SD_temp();                  
       huella1temp = huellatemp;
     }
 

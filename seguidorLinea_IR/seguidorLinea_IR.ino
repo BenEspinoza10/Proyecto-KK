@@ -28,12 +28,6 @@ DateTime now;                                                        //variable 
 int huella, huella1 ,huellatemp, huella1temp;  //variables para algoritmo de huella digital
 int ID = 0;
 
-void wakeUp() {
-  // Just a handler for the pin interrupt.
-  flag_rolling = 1;
-  Serial.println("Arduino despierto, iniciando cálculo");
-  detachInterrupt(0);  
-}
 
 void setup() {
   //pinMode(OUT_DISABLE_POWER, OUTPUT);
@@ -48,13 +42,6 @@ void setup() {
 void loop() {    
   int status = digitalRead(IN_LINE);
 
-  /*
-  if (status == 0) {
-    attachInterrupt(digitalPinToInterrupt(IN_LINE), wakeUp, HIGH);
-  } else {
-    attachInterrupt(digitalPinToInterrupt(IN_LINE), wakeUp, LOW);
-  }*/
-
   while(status == digitalRead(IN_LINE)){
     continue;
   }
@@ -68,4 +55,3 @@ void loop() {
   now = rtc.now();  
   calculo();  
 }
-
