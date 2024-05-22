@@ -52,13 +52,7 @@ void escritura_SD() {
 void escritura_SD_temp() {
   myFile = SD.open("dataKKs.csv", FILE_WRITE);
   DateTime nowtemp = rtc.now(); 
-  if (myFile) {
-    myFile.print(nowtemp.day(), DEC);
-    myFile.print('/');
-    myFile.print(nowtemp.month(), DEC);
-    myFile.print('/');
-    myFile.print(nowtemp.year(), DEC);
-    myFile.print(",");
+  if (myFile) {    
     myFile.print(nowtemp.hour(), DEC);
     myFile.print(':');
     myFile.print(nowtemp.minute(), DEC);
