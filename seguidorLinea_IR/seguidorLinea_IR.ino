@@ -26,8 +26,11 @@ int flag_rolling = 0, marca_vuelta = 0;
 int halada = 0;
 DateTime now;                                                        //variable para marcar fecha y hora
 int huella, huella1 ,huellatemp, huella1temp;  //variables para algoritmo de huella digital
-int ID = 0;
 
+void wakeUp()
+{
+    // Just a handler for the pin interrupt.
+}
 
 void setup() {
   //pinMode(OUT_DISABLE_POWER, OUTPUT);
@@ -40,18 +43,23 @@ void setup() {
 }
 
 void loop() {    
-  int status = digitalRead(IN_LINE);
+  //Aqui se debe guardar el estado actual del sensor de linea 
+  //-----------------------
+  //Se configura el pin para despertar el arduino
+  attachInterrupt(digitalPinToInterrupt(IN_INTERRUPT), wakeUP, CHANGE);
 
-  while(status == digitalRead(IN_LINE)){
-    continue;
-  }
-  flag_rolling = 1;
-  Serial.println("movimiento activado");
-  //se pone el arduino en sleep
-  //LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF);
+  //Se apaga el arduino
+  pinMode(OUT_DISABLE_POWER,INPUT)//Se pone el pin en alta impedancia
+  LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF);
 
-  //se despierta el arduino cuando detecta marca en el optocoplador
-  
-  now = rtc.now();  
+  //Cuando se prenda el arduino aquí se continua
+  detachInterrupt(digitalPinToInterrupt(IN_INTERRUPT)); 
+  pinMode(OUT_DISABLE_POWER,OUTPUT); //Se pone el pin en escritura
+  digitalWrite(OUT_DISABLE_POWER,LOW); //Se pone el pin en low para habilitar VDD
+
+
+  flag_rolling = 1; //flag para iniciar el cálculo
+  Serial.println("movimiento activado");  
+  now = rtc.now();  //Se guarda el tiempo actual
   calculo();  
 }

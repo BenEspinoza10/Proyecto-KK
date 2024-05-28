@@ -3,7 +3,7 @@ void calculo() {
   cronometro = millis();
   while (flag_rolling == 1) {
     //Leer y filtrar puerto del IR, si es ruido salir
-    //huella = MeasureDigitalN(SAMPLES, IN_LINE);
+    //TODO: hay que cambiar esto a digital
     huella = MeasureDigitalT(T_FILTER, IN_LINE);  //Sensa durante 1.0 mS para filtrar ruido
     if (huella < 0) return;
 
@@ -36,19 +36,11 @@ void calculo() {
       //escritura de datos en la tarjeta SD
       escritura_SD();
 
-      Serial.println("%rollo; radio; giro ;  cms ");
-      Serial.print(radio_temp * 100, 0);
-      Serial.print(" ; ");
-      Serial.print(sensorRadio, 2);
-      Serial.print(" ; ");
-      Serial.print(vueltas_temp, 2);
-      Serial.print(" ; ");
-      Serial.println(gasto_temp, 1);
+      print_temporal_tirada();
 
       vueltas_temp = 0;
       gasto_temp = 0;
-      flag_rolling = 0;
-      ID++;
+      flag_rolling = 0;      
     }
   }
 }

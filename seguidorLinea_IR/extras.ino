@@ -3,8 +3,8 @@ void setup_general(){
   Serial.begin(115200);
   while (!Serial)
     ;
-  pinMode(IN_LINE, INPUT);
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(IN_INTERRUPT, INPUT); 
 }
 void blink_led_builin(int time_hi, int hm_times) {
   for (int i = 0; i < hm_times; i++) {
@@ -35,4 +35,15 @@ void print_distancias(){
   Serial.print(radio_temp);
   Serial.print("radio calculado: ");
   Serial.println(sensorRadio);
+}
+
+void print_temporal_tirada(){
+  Serial.println("%rollo; radio; giro ;  cms ");
+      Serial.print(radio_temp * 100, 0);
+      Serial.print(" ; ");
+      Serial.print(sensorRadio, 2);
+      Serial.print(" ; ");
+      Serial.print(vueltas_temp, 2);
+      Serial.print(" ; ");
+      Serial.println(gasto_temp, 1);
 }
