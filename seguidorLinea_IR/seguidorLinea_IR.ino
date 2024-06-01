@@ -27,6 +27,8 @@ int halada = 0;
 DateTime now;                                                        //variable para marcar fecha y hora
 int huella, huella1 ,huellatemp, huella1temp;  //variables para algoritmo de huella digital
 
+int umbral = 600;   //Umbral de diferenciacion entre negro y blanco. TODO: ahora esta hardcodeado pero la idea es calibrarlo al momento de inicializacion
+
 void wakeUp()
 {
     // Just a handler for the pin interrupt.
@@ -38,8 +40,7 @@ void setup() {
   setup_general();
   reloj_setup();
   setup_SD();
-  Serial.println("Proyecto KKs con IR v2.0 Inicializado");
-  blink_led_builin(200, 3);  //prender led 2 veces por 200ms
+  Serial.println("Proyecto KKs con IR v2.0 Inicializado");  
 }
 
 void loop() {    

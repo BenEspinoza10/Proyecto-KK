@@ -4,7 +4,7 @@ void calculo() {
   while (flag_rolling == 1) {
     //Leer y filtrar puerto del IR, si es ruido salir
     //TODO: hay que cambiar esto a digital
-    huella = MeasureDigitalT(T_FILTER, IN_LINE);  //Sensa durante 1.0 mS para filtrar ruido
+    huella = MeasureTurnCount(T_FILTER, IN_LINE);  //Sensa durante 1.0 mS para filtrar ruido
     if (huella < 0) return;
 
     digitalWrite(LED_BUILTIN, bool(huella));

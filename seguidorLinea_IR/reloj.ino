@@ -6,6 +6,7 @@ void reloj_setup(){
     //while (1) delay(10);
     return;
   }
+  
   const unsigned int buildTimeEEPROMaddress = 1000;
   const char storedBuildTime[9];
   EEPROM.get(buildTimeEEPROMaddress, storedBuildTime);

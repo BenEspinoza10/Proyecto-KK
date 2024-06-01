@@ -8,11 +8,23 @@ int MeasureDigitalN(unsigned int samplesNumber, int digitalPort) {
 }
 
 
-int MeasureDigitalT(unsigned int sensingTime, int digitalPort) {
+int MeasureTurnCount(unsigned int sensingTime, int analogPort) {
   unsigned long lapse = millis();
-  int cum = digitalRead(digitalPort);
+  int cum = analogRead(analogPort);
+
+  if (cum >= umbral){
+    cum = 1;
+  }else{
+    cum = 0;
+  }
   while (millis() - lapse < sensingTime) {
-    if (cum != digitalRead(digitalPort)) return -1;
+    int temp;
+    if (analogRead(analogPort)>= umbral){
+      temp = 1;
+    }else{
+      temp = 0;
+    }
+    if (cum != temp) return -1;
   }
   return cum;
 }
