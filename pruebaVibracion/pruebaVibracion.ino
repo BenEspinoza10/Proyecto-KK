@@ -1,7 +1,7 @@
 void setup() {
   // put your setup code here, to run once:
-  digitalRead(2); //interrupt para el sensor de vibración
-  Serial.begin();
+  pinMode(2,INPUT); //interrupt para el sensor de vibración
+  Serial.begin(115200);
 }
 
 void loop() {

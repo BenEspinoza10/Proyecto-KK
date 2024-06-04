@@ -35,8 +35,6 @@ void wakeUp()
 }
 
 void setup() {
-  //pinMode(OUT_DISABLE_POWER, OUTPUT);
-  //digitalWrite(OUT_DISABLE_POWER, HIGH); // DESABILITAR CORRIENTE PARA DORMIR SENSORES
   setup_general();
   reloj_setup();
   setup_SD();
@@ -47,7 +45,7 @@ void loop() {
   //Aqui se debe guardar el estado actual del sensor de linea 
   //-----------------------
   //Se configura el pin para despertar el arduino
-  attachInterrupt(digitalPinToInterrupt(IN_INTERRUPT), wakeUP, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(IN_INTERRUPT), wakeUp, CHANGE);
 
   //Se apaga el arduino
   pinMode(OUT_DISABLE_POWER,INPUT)//Se pone el pin en alta impedancia
