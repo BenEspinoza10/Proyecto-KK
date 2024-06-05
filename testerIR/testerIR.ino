@@ -1,9 +1,13 @@
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(115200);
+  pinMode(4,OUTPUT); //Se pone el pin en escritura
+  digitalWrite(4,LOW);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  Serial.println(analogRead(A6));
+  Serial.print(analogRead(A6));
+  Serial.print("\t");
+  Serial.println(analogRead(A7));
 }
