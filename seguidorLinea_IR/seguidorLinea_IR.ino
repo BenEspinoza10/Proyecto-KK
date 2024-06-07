@@ -60,7 +60,6 @@ void setup() {
 }
 
 void loop() {   
-  /* 
   //Aqui se debe guardar el estado actual del sensor de linea 
   //-----------------------
   //Se configura el pin para despertar el arduino
@@ -78,5 +77,5 @@ void loop() {
   flag_rolling = 1; //flag para iniciar el cálculo
   now = rtc.now();  //Se guarda el tiempo actual
   calculo();  
-  delay(1000);*/
+  delay(1000);
 }

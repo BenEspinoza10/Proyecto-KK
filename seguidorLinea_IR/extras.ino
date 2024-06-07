@@ -10,14 +10,6 @@ void setup_general() {
   pinMode(LED_BLUE, OUTPUT);
   pinMode(LED_GREEN, OUTPUT);
 }
-void blink_led_builin(int time_hi, int hm_times) {
-  for (int i = 0; i < hm_times; i++) {
-    digitalWrite(LED_BUILTIN, HIGH);  // turn the LED on (HIGH is the voltage level)
-    delay(time_hi);                   // wait for a second
-    digitalWrite(LED_BUILTIN, LOW);   // turn the LED off by making the voltage LOW
-    delay(time_hi);
-  }  // wait for a second
-}
 
 void blink_led_green() {
   for (int i = 0; i < 10; i++) {

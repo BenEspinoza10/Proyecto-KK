@@ -19,91 +19,55 @@ int espera_configuracion() {
 
 void configuracion() {
   led_off();
-  led_blue_on();
+  
   pinMode(OUT_DISABLE_POWER, OUTPUT);  //Se pone el pin en escritura
   digitalWrite(OUT_DISABLE_POWER, LOW);
-  while (digitalRead(PUSH_BUTTON) == 0)
-    ;
-  Serial.println("Ingrese negro");
+
   //primero poner el rollo en la línea negra
+  Serial.println("Ingrese negro");
+  led_blue_on();
   while (digitalRead(PUSH_BUTTON) == 1)
     ;
   led_off();
-
-  long sumanegro = 0;
-  for (int i = 0; i < 100; i++) {
-    led_yellow_on();
-        
-    sumanegro += analogRead(IN_LINE);
-    Serial.println(sumanegro);
-    delay(10);
-    led_off();
-    delay(10);
-  }
-  int negro = sumanegro / 100;
+  int negro = calcular_promedio(IN_LINE);
   led_off();
   led_blue_on();
   while (digitalRead(PUSH_BUTTON) == 0)
     ;
 
-
-  Serial.println("Ingrese blanco");
   //luego hay que poner el valor del blanco
+  Serial.println("Ingrese blanco");
   while (digitalRead(PUSH_BUTTON) == 1)
     ;
   led_off();
+  int blanco = calcular_promedio(IN_LINE);
 
-  long sumablanco = 0;
-  for (int i = 0; i < 100; i++) {
-    led_yellow_on();    
-    sumablanco += analogRead(IN_LINE);
-    delay(10);
-    led_off();
-    delay(10);
-  }
-  int blanco = sumablanco / 100;
-
-  umbral = (blanco + negro) / 2;  //Se calcula el umbral
+  //se calcula el umbral
+  umbral = (blanco + negro) / 2;
   while (digitalRead(PUSH_BUTTON) == 0)
     ;
   led_off();
   led_blue_on();
-  Serial.println("Ingrese rollo nuevo");
+
   //luego hay que poner el rollo más grande posible
+  Serial.println("Ingrese rollo nuevo");
   while (digitalRead(PUSH_BUTTON) == 1)
     ;
   led_off();
 
-  long sumamax = 0;
-  for (int i = 0; i < 100; i++) {
-    led_yellow_on();
-    sumamax += analogRead(IN_DIAMETER);
-    delay(10);
-    led_off();
-    delay(10);
-  }
-  radio_max_analog = sumamax / 100;
+
+  radio_max_analog = calcular_promedio(IN_DIAMETER);
   while (digitalRead(PUSH_BUTTON) == 0)
     ;
   led_off();
   led_blue_on();
 
-
-  Serial.println("Ingrese rollo vacío");
   //por ultimo hay que poner un rollo vacío
+  Serial.println("Ingrese rollo vacío");
   while (digitalRead(PUSH_BUTTON) == 1)
     ;
-  led_off();
-
-  long sumamin = 0;
-  for (int i = 0; i < 100; i++) {
-    led_yellow_on();
-    sumamin += analogRead(IN_DIAMETER);
-    delay(10);
-    led_off();
-    delay(10);
-  }
-  radio_min_analog = sumamin / 100;
+  led_off(); 
+  radio_min_analog = calcular_promedio(IN_DIAMETER);
   led_off();
   led_blue_on();
   while (digitalRead(PUSH_BUTTON) == 0)
@@ -121,6 +85,18 @@ void configuracion() {
   Serial.println(radio_min_analog);
 
   escribir_memoria(umbral, radio_max_analog, radio_min_analog);  //se guardan los valores en memoria eeprom
+}
+
+int calcular_promedio(int pin) {
+  long suma = 0;
+  for (int i = 0; i < 100; i++) {
+    led_yellow_on();
+    suma += analogRead(pin);
+    delay(10);
+    led_off();
+    delay(10);
+  }
+  return suma / 100;
 }
 
 void escribir_memoria(int umbral, int radio_max, int radio_min) {

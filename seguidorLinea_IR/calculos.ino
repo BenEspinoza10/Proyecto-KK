@@ -17,8 +17,7 @@ void calculo() {
     }
 
     if (millis() - cronometro > timeout_halada * 1000) {
-      //fin evento halada de papel, se hacen los cálculos respectivos, actualmente está definido con 2 segundos
-      //digitalWrite(LED_BUILTIN, LOW);
+      //fin evento halada de papel, se hacen los cálculos respectivos, actualmente está definido con 2 segundos      
       vueltas_temp = vueltas_temp / n_octocoplador * 0.5;
       vueltas_totales += vueltas_temp;
       halada++;
@@ -31,7 +30,7 @@ void calculo() {
 
       //escritura de datos en la tarjeta SD
       //escritura_SD();
-      blink_led_green();
+      blink_led_green();      
       print_temporal_tirada();
 
       vueltas_temp = 0;
@@ -43,6 +42,6 @@ void calculo() {
 
 
 double distancia_rollo(int lectura){
-  d = -6.73+62.6*lectura-25.2*lectura^2+3.79*lectura^3;
-  return d
+  double d = -6.73+62.6*lectura-25.2*pow(lectura,2)+3.79*pow(lectura,3);
+  return d;
 }

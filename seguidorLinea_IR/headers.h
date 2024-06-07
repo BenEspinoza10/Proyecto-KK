@@ -8,9 +8,9 @@
 #define T_FILTER 1 //mSeg sensando el sensor de línea
 
 //pines para la luz led
-#define LED_RED 9
-#define LED_GREEN 10
-#define LED_BLUE 11
+#define LED_RED 5
+#define LED_GREEN 6
+#define LED_BLUE 7
 
 
-#define PUSH_BUTTON 7 //pin para el boton
+#define PUSH_BUTTON 9 //pin para el boton
