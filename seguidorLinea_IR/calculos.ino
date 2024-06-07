@@ -23,11 +23,10 @@ void calculo() {
       vueltas_totales += vueltas_temp;
       halada++;
 
-      //aqui hay que poner el cálculo de los cm usados
-      // Leer y normalizar sensor IR de diametro: Aprox 0.7 rollo vacío - 0.02 rollo nuevo
-      radio_temp = (1 - MeasureAnalogN(SAMPLES, IN_DIAMETER));
-      sensorRadio = radio_max * radio_temp;
-      gasto_temp = 2 * M_PI * sensorRadio * vueltas_temp;
+      //aqui hay que poner el cálculo de los cm usados      
+      radio_temp = (8 -distancia_rollo(analogRead(IN_DIAMETER)));
+      //sensorRadio = radio_max * radio_temp;
+      gasto_temp = 2 * M_PI * radio_temp * vueltas_temp;
 
 
       //escritura de datos en la tarjeta SD
@@ -40,4 +39,10 @@ void calculo() {
       flag_rolling = 0;
     }
   }
+}
+
+
+double distancia_rollo(int lectura){
+  d = -6.73+62.6*lectura-25.2*lectura^2+3.79*lectura^3;
+  return d
 }
