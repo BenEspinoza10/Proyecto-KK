@@ -27,7 +27,9 @@ int halada = 0;
 DateTime now;                                                        //variable para marcar fecha y hora
 int huella, huella1 ,huellatemp, huella1temp;  //variables para algoritmo de huella digital
 
-int umbral = 600;   //Umbral de diferenciacion entre negro y blanco. TODO: ahora esta hardcodeado pero la idea es calibrarlo al momento de inicializacion
+int umbral = 100;   //Umbral de diferenciacion entre negro y blanco.
+int radio_min_analog = 30;      //lectura de los radios análogos
+int radio_max_analog = 800; 
 
 void wakeUp()
 {
@@ -38,17 +40,28 @@ void setup() {
   setup_general();
   reloj_setup();
   setup_SD();
-  Serial.println("Proyecto KKs con IR v2.0 Inicializado");  
+  int status_setup = espera_configuracion();
+  if (status_setuo == 0){
+    //no se hizo setup, asi que se cargan los valores desde memoria.
+    umbral = leerEEPROM(0);
+    radio_max_analog=leerEEPROM(2);
+    radio_min_analog=leerEEPROM(4);
+  }
+  Serial.println("Proyecto KKs con IR v2.0 Inicializado"); 
+
+  blink_led_green();  
+  delay(5000);
 }
 
-void loop() {    
+void loop() {   
+  /* 
   //Aqui se debe guardar el estado actual del sensor de linea 
   //-----------------------
   //Se configura el pin para despertar el arduino
   attachInterrupt(digitalPinToInterrupt(IN_INTERRUPT), wakeUp, CHANGE);
 
   //Se apaga el arduino
-  pinMode(OUT_DISABLE_POWER,INPUT)//Se pone el pin en alta impedancia
+  pinMode(OUT_DISABLE_POWER,INPUT);//Se pone el pin en alta impedancia
   LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF);
 
   //Cuando se prenda el arduino aquí se continua
@@ -56,9 +69,8 @@ void loop() {
   pinMode(OUT_DISABLE_POWER,OUTPUT); //Se pone el pin en escritura
   digitalWrite(OUT_DISABLE_POWER,LOW); //Se pone el pin en low para habilitar VDD
 
-
   flag_rolling = 1; //flag para iniciar el cálculo
-  Serial.println("movimiento activado");  
   now = rtc.now();  //Se guarda el tiempo actual
   calculo();  
+  delay(1000);*/
 }

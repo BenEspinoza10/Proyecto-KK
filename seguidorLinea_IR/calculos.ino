@@ -5,17 +5,14 @@ void calculo() {
     //Leer y filtrar puerto del IR, si es ruido salir
     //TODO: hay que cambiar esto a digital
     huella = MeasureTurnCount(T_FILTER, IN_LINE);  //Sensa durante 1.0 mS para filtrar ruido
-    if (huella < 0) return;
-
-    digitalWrite(LED_BUILTIN, bool(huella));
     huellatemp = huella;
 
     if (huella1temp != huellatemp) {
-      Serial.print("Sensor: ");
-      Serial.println(bool(huella));      
+      //Serial.print("Sensor: ");
+      //Serial.println(bool(huella));
       vueltas_temp++;
       cronometro = millis();
-      escritura_SD_temp();                  
+      //escritura_SD_temp();
       huella1temp = huellatemp;
     }
 
@@ -34,13 +31,13 @@ void calculo() {
 
 
       //escritura de datos en la tarjeta SD
-      escritura_SD();
-
+      //escritura_SD();
+      blink_led_green();
       print_temporal_tirada();
 
       vueltas_temp = 0;
       gasto_temp = 0;
-      flag_rolling = 0;      
+      flag_rolling = 0;
     }
   }
 }

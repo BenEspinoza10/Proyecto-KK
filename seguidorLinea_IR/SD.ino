@@ -1,6 +1,8 @@
 void setup_SD() {
   if (!SD.begin(chipSelect)) {
     Serial.println("initialization of SD failed!");
+    led_red_on();
+    while(true);
     return;
   }
 
@@ -12,6 +14,8 @@ void setup_SD() {
       Serial.println("archivo main creado");
     } else {
       Serial.println("Fallo de apertura main");
+      led_red_on();
+      while(true);
     }
     myFile.close();
   } else {
@@ -46,6 +50,8 @@ void escritura_SD() {
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD main");
+    led_red_on();
+    while(true);
   }
 }
 
@@ -66,5 +72,7 @@ void escritura_SD_temp() {
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD temp");
+    led_red_on();
+    while(true);
   }
 }

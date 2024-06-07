@@ -19,16 +19,36 @@ void blink_led_builin(int time_hi, int hm_times) {
   }  // wait for a second
 }
 
+void blink_led_green() {
+  for (int i = 0; i < 10; i++) {
+    led_green_on();  // turn the LED on (HIGH is the voltage level)
+    delay(100);                   // wait for a second
+    led_off();  // turn the LED off by making the voltage LOW
+    delay(100);
+  }  
+}
+
 void led_red_on() {
   digitalWrite(LED_RED,HIGH);
   digitalWrite(LED_BLUE,LOW);
   digitalWrite(LED_GREEN,LOW);
 }
 
-void led_red_on() {
+void led_green_on() {
   digitalWrite(LED_RED,LOW);
   digitalWrite(LED_BLUE,LOW);
   digitalWrite(LED_GREEN,HIGH);
+}
+
+void led_blue_on() {
+  digitalWrite(LED_RED,LOW);
+  digitalWrite(LED_BLUE,HIGH);
+  digitalWrite(LED_GREEN,LOW);
+}
+void led_yellow_on() {
+  digitalWrite(LED_RED,HIGH);
+  digitalWrite(LED_BLUE,HIGH);
+  digitalWrite(LED_GREEN,LOW);
 }
 
 void led_off() {
