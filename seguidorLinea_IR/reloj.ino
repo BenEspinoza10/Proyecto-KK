@@ -1,13 +1,16 @@
-void reloj_setup(){
+#include "headers.h"
+
+void reloj_setup() {
   Wire.begin();
   if (!rtc.begin()) {
     Serial.println("Couldn't find RTC");
     Serial.flush();
     led_red_on();
-    while(true);
+    while (true)
+      ;
     //while (1) delay(10);
     return;
-  }  
+  }
 
   //Código para setear la hora del reloj sólo si no estaba seteada de antes.
   if (!rtc.isrunning()) {

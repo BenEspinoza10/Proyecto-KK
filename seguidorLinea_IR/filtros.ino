@@ -1,3 +1,5 @@
+#include "headers.h"
+
 int MeasureDigitalN(unsigned int samplesNumber, int digitalPort) {
   int cum = digitalRead(digitalPort);
 

@@ -47,8 +47,8 @@ void led_blue_on() {
 }
 void led_yellow_on() {
   digitalWrite(LED_RED,HIGH);
-  digitalWrite(LED_BLUE,HIGH);
-  digitalWrite(LED_GREEN,LOW);
+  digitalWrite(LED_BLUE,LOW);
+  digitalWrite(LED_GREEN,HIGH);
 }
 
 void led_off() {

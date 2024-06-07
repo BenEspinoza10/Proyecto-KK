@@ -1,5 +1,8 @@
+#include "headers.h"
+
 void setup_SD() {
   if (!SD.begin(chipSelect)) {
+
     Serial.println("initialization of SD failed!");
     led_red_on();
     while(true);

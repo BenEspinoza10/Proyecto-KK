@@ -1,10 +1,14 @@
+#include "headers.h"
+
 //codigo que corre al inicio del codigo, si se aprieta el boton dentro de los primeros 10 segundos mientras la led está amarilla, se entra en modo condiguracion, en caso contrario, se cargan los datos desde la memoria.
-int espera_configuracion(){
+int espera_configuracion() {
+  Serial.println("esperando configuración");
   led_yellow_on();
   unsigned long tiempoConfig = millis();
-  while(millis()-tiempoConfig < 10000){ //se espera el input del boton por 10 seg
-    if(digitalRead(PUSH_BUTTON)==0){
-      while(digitalRead(PUSH_BUTTON)==0);
+  while (millis() - tiempoConfig < 5000) {  //se espera el input del boton por 10 seg
+    if (digitalRead(PUSH_BUTTON) == 0) {
+      while (digitalRead(PUSH_BUTTON) == 0)
+        ;
       configuracion();
       return 1;
     }
@@ -13,74 +17,116 @@ int espera_configuracion(){
   return 0;
 }
 
-void configuracion(){
+void configuracion() {
   led_off();
   led_blue_on();
-
+  pinMode(OUT_DISABLE_POWER, OUTPUT);  //Se pone el pin en escritura
+  digitalWrite(OUT_DISABLE_POWER, LOW);
+  while (digitalRead(PUSH_BUTTON) == 0)
+    ;
+  Serial.println("Ingrese negro");
   //primero poner el rollo en la línea negra
-  while(digitalRead(PUSH_BUTTON)==1);
+  while (digitalRead(PUSH_BUTTON) == 1)
+    ;
   led_off();
-  led_yellow_on();
-  int sumanegro = 0;
-  for (int i=0;i<100;i++){
+
+  long sumanegro = 0;
+  for (int i = 0; i < 100; i++) {
+    led_yellow_on();
+        
     sumanegro += analogRead(IN_LINE);
+    Serial.println(sumanegro);
+    delay(10);
+    led_off();
+    delay(10);
   }
-  int negro = sumanegro/100;
+  int negro = sumanegro / 100;
   led_off();
   led_blue_on();
+  while (digitalRead(PUSH_BUTTON) == 0)
+    ;
 
+
+  Serial.println("Ingrese blanco");
   //luego hay que poner el valor del blanco
-  while(digitalRead(PUSH_BUTTON)==1);
+  while (digitalRead(PUSH_BUTTON) == 1)
+    ;
   led_off();
-  led_yellow_on();
-  int sumablanco = 0;
-  for (int i=0;i<100;i++){
+
+  long sumablanco = 0;
+  for (int i = 0; i < 100; i++) {
+    led_yellow_on();    
     sumablanco += analogRead(IN_LINE);
+    delay(10);
+    led_off();
+    delay(10);
   }
-  int blanco = sumablanco/100;
+  int blanco = sumablanco / 100;
 
-  umbral = (blanco+negro)/2; //Se calcula el umbral
+  umbral = (blanco + negro) / 2;  //Se calcula el umbral
+  while (digitalRead(PUSH_BUTTON) == 0)
+    ;
   led_off();
   led_blue_on();
-
+  Serial.println("Ingrese rollo nuevo");
   //luego hay que poner el rollo más grande posible
-  while(digitalRead(PUSH_BUTTON)==1);
+  while (digitalRead(PUSH_BUTTON) == 1)
+    ;
   led_off();
-  led_yellow_on();
-  int sumamax = 0;
-  for (int i=0;i<100;i++){
-    sumamax += analogRead(IN_LINE);
+
+  long sumamax = 0;
+  for (int i = 0; i < 100; i++) {
+    led_yellow_on();
+    sumamax += analogRead(IN_DIAMETER);
+    delay(10);
+    led_off();
+    delay(10);
   }
-  radio_max_analog = sumamax/100;
+  radio_max_analog = sumamax / 100;
+  while (digitalRead(PUSH_BUTTON) == 0)
+    ;
   led_off();
   led_blue_on();
 
+
+  Serial.println("Ingrese rollo vacío");
   //por ultimo hay que poner un rollo vacío
-  while(digitalRead(PUSH_BUTTON)==1);
+  while (digitalRead(PUSH_BUTTON) == 1)
+    ;
   led_off();
-  led_yellow_on();
-  int sumamin = 0;
-  for (int i=0;i<100;i++){
-    sumamin += analogRead(IN_LINE);
+
+  long sumamin = 0;
+  for (int i = 0; i < 100; i++) {
+    led_yellow_on();
+    sumamin += analogRead(IN_DIAMETER);
+    delay(10);
+    led_off();
+    delay(10);
   }
-  radio_min_analog = sumamin/100;
+  radio_min_analog = sumamin / 100;
   led_off();
   led_blue_on();
+  while (digitalRead(PUSH_BUTTON) == 0)
+    ;
 
-  Serial.println("umbral; radio min; radiomax ");
+  Serial.println("negro,blanco,umbral; radio min; radiomax ");
+  Serial.print(negro);
+  Serial.print(" ; ");
+  Serial.print(blanco);
+  Serial.print(" ; ");
   Serial.print(umbral);
   Serial.print(" ; ");
-  Serial.print(radio_max);
+  Serial.print(radio_max_analog);
   Serial.print(" ; ");
-  Serial.println(radio_min);
-  
-  escribir_memoria(umbral,radio_max,radio_min); //se guardan los valores en memoria eeprom  
+  Serial.println(radio_min_analog);
+
+  escribir_memoria(umbral, radio_max_analog, radio_min_analog);  //se guardan los valores en memoria eeprom
 }
 
-void escribir_memoria(int umbral,int radio_max, int radio_min){
-  escribirEEPROM(0,umbral);
-  escribirEEPROM(2,radio_max);
-  escribirEEPROM(4,radio_min);  
+void escribir_memoria(int umbral, int radio_max, int radio_min) {
+  escribirEEPROM(0, umbral);
+  escribirEEPROM(2, radio_max);
+  escribirEEPROM(4, radio_min);
 }
 
 

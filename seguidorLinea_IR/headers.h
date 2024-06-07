@@ -9,7 +9,8 @@
 
 //pines para la luz led
 #define LED_RED 9
-#define LED_BLUE 10
-#define LED_GREEN 11
+#define LED_GREEN 10
+#define LED_BLUE 11
+
 
 #define PUSH_BUTTON 7 //pin para el boton

@@ -41,15 +41,21 @@ void setup() {
   reloj_setup();
   setup_SD();
   int status_setup = espera_configuracion();
-  if (status_setuo == 0){
+  if (status_setup == 0){
     //no se hizo setup, asi que se cargan los valores desde memoria.
     umbral = leerEEPROM(0);
     radio_max_analog=leerEEPROM(2);
     radio_min_analog=leerEEPROM(4);
+    Serial.print(umbral);
+    Serial.print(";");
+    Serial.print(radio_max_analog);
+    Serial.print(";");
+    Serial.println(radio_min_analog);
   }
   Serial.println("Proyecto KKs con IR v2.0 Inicializado"); 
 
-  blink_led_green();  
+  blink_led_green(); 
+  led_off();   
   delay(5000);
 }
 
