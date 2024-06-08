@@ -1,18 +1,20 @@
 void calculo() {
-
   cronometro = millis();
   while (flag_rolling == 1) {
-    //Leer y filtrar puerto del IR, si es ruido salir
-    //TODO: hay que cambiar esto a digital
+    //Leer y filtrar puerto del IR, si es ruido salir    
     huella = MeasureTurnCount(T_FILTER, IN_LINE);  //Sensa durante 1.0 mS para filtrar ruido
+    if(huella==-1){
+      //aqui hay que hacer otra cosa en vez de retornar
+      continue;
+    }
     huellatemp = huella;
 
-    if (huella1temp != huellatemp) {
+    if (huella1temp != huellatemp and (huelletatemp!=-1 or huella1temp!=-1)) {
       //Serial.print("Sensor: ");
       //Serial.println(bool(huella));
       vueltas_temp++;
       cronometro = millis();
-      //escritura_SD_temp();
+      escritura_SD_temp();
       huella1temp = huellatemp;
     }
 
@@ -23,13 +25,13 @@ void calculo() {
       halada++;
 
       //aqui hay que poner el cálculo de los cm usados      
-      radio_temp = (8 -distancia_rollo(analogRead(IN_DIAMETER)));
+      radio_temp = (80 -distancia_rollo(MeasureAnalogN(SAMPLES,IN_DIAMETER)));
       //sensorRadio = radio_max * radio_temp;
       gasto_temp = 2 * M_PI * radio_temp * vueltas_temp;
 
 
       //escritura de datos en la tarjeta SD
-      //escritura_SD();
+      escritura_SD();
       blink_led_green();      
       print_temporal_tirada();
 
@@ -40,8 +42,8 @@ void calculo() {
   }
 }
 
-
 double distancia_rollo(int lectura){
-  double d = -6.73+62.6*lectura-25.2*pow(lectura,2)+3.79*pow(lectura,3);
+  double x = lectura*5/1023;
+  double d = -6.73+62.6*x-25.2*pow(x,2)+3.79*pow(x,3);
   return d;
 }

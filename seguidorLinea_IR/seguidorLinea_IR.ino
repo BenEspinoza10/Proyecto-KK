@@ -76,6 +76,5 @@ void loop() {
 
   flag_rolling = 1; //flag para iniciar el cálculo
   now = rtc.now();  //Se guarda el tiempo actual
-  calculo();  
-  delay(1000);
+  calculo();    
 }

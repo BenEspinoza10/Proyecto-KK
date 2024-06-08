@@ -44,9 +44,7 @@ void escritura_SD() {
     myFile.print(now.second(), DEC);
     myFile.print(",");    
     myFile.print(radio_temp * 100, 0);
-    myFile.print(",");
-    myFile.print(sensorRadio, 2);
-    myFile.print(",");
+    myFile.print(",");    
     myFile.print(vueltas_temp, 2);
     myFile.print(",");
     myFile.println(gasto_temp, 1);

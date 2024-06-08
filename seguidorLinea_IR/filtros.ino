@@ -27,7 +27,7 @@ int MeasureTurnCount(unsigned int sensingTime, int analogPort) {
   } else {
     cum = 0;
   }
-  /*while (millis() - lapse < sensingTime) {
+  while (millis() - lapse < sensingTime) {
     int temp;
     if (analogRead(analogPort) >= umbral) {
       temp = 1;
@@ -35,7 +35,7 @@ int MeasureTurnCount(unsigned int sensingTime, int analogPort) {
       temp = 0;
     }
     if (cum != temp) return -1;
-  }*/
+  }
   return cum;
 }
 
