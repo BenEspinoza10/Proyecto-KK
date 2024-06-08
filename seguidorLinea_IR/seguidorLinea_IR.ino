@@ -1,5 +1,5 @@
 #include"headers.h"
-#include <EEPROM.h>
+
 //código para el reloj
 #include "RTClib.h"
 #include "LowPower.h"
