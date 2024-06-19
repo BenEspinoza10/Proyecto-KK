@@ -14,12 +14,12 @@ File myFile;
 const int chipSelect = 10;
 
 int n_octocoplador = 4;      //número de marcas que detecta el octocoplador para considerar una vuelta.
-double radio_min = 2.5;      //radio del cartón en cm
-double radio_max = 6.5;      //radio de un rollo nuevo en cm
+double radio_min = 2.4;      //radio del cartón en cm
+double radio_max = 7.25;      //radio máximo de un rollo nuevo en cm
 int timeout_halada = 5.000;  //tiempo en segundos que se considera de inactividad mínima entre jalón de papel
 
 double vueltas_totales = 0, vueltas_temp = 0;  //contador de vueltas
-double sensorRadio = 0, radio_temp;            //Sensor IR que mide distancia al rollo para estimar cuanto uso lleva
+double sensorRadio = 0, radio_temp;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
 double gasto_temp, gasto_total;                //Contador de gasto, en cm
 unsigned long cronometro;
 int flag_rolling = 0, marca_vuelta = 0;
@@ -28,8 +28,8 @@ DateTime now;                                                        //variable 
 int huella, huella1 ,huellatemp, huella1temp;  //variables para algoritmo de huella digital
 
 int umbral = 100;   //Umbral de diferenciacion entre negro y blanco.
-int radio_min_analog = 30;      //lectura de los radios análogos
-int radio_max_analog = 800; 
+int radio_min_analog = 30;      // 24mm lectura de los radios análogos
+int radio_max_analog = 800;     // 70mm
 
 void wakeUp()
 {
@@ -54,7 +54,7 @@ void setup() {
   }
   Serial.println("Proyecto KKs con IR v2.0 Inicializado"); 
 
-  blink_led_green(); 
+  blink_led_green(10,100); 
   led_off();   
   delay(5000);
 }
@@ -62,7 +62,7 @@ void setup() {
 void loop() {   
   //Aqui se debe guardar el estado actual del sensor de linea 
   //-----------------------
-  //Se configura el pin para despertar el arduino
+  //Se configura el pin para despertar el 
   attachInterrupt(digitalPinToInterrupt(IN_INTERRUPT), wakeUp, CHANGE);
 
   //Se apaga el arduino
@@ -76,5 +76,5 @@ void loop() {
 
   flag_rolling = 1; //flag para iniciar el cálculo
   now = rtc.now();  //Se guarda el tiempo actual
-  calculo();    
+  calculo();   
 }

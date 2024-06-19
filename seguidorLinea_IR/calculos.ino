@@ -9,7 +9,7 @@ void calculo() {
     }
     huellatemp = huella;
 
-    if (huella1temp != huellatemp and (huelletatemp!=-1 or huella1temp!=-1)) {
+    if (huella1temp != huellatemp and (huellatemp!=-1 or huella1temp!=-1)) {
       //Serial.print("Sensor: ");
       //Serial.println(bool(huella));
       vueltas_temp++;
@@ -32,7 +32,7 @@ void calculo() {
 
       //escritura de datos en la tarjeta SD
       escritura_SD();
-      blink_led_green();      
+      blink_led_green(10,100);      
       print_temporal_tirada();
 
       vueltas_temp = 0;

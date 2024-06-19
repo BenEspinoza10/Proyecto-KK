@@ -1,16 +1,41 @@
-#include "headers.h"
-void setup_general() {
+//pines para la luz led
+#define LED_RED 5
+#define LED_GREEN 6
+#define LED_BLUE 7
+
+#define PUSH_BUTTON 9 //pin para el boton
+
+void setup() {
   Serial.begin(115200);
-  while (!Serial)
-    ;
+  while (!Serial);
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(IN_INTERRUPT, INPUT);
   pinMode(PUSH_BUTTON, INPUT_PULLUP);
   pinMode(LED_RED, OUTPUT);
   pinMode(LED_BLUE, OUTPUT);
   pinMode(LED_GREEN, OUTPUT);
+
+  //if (digitalRead(PUSH_BUTTON) == 0) {
+  //    while (digitalRead(PUSH_BUTTON) == 0)
+  //      ;
 }
 
+void loop(){
+  led_rgb_tOn(255,0,0,1000); // rojo
+  delay(500);
+  blink_led_green(5,100); // verde 5 veces, 100ms
+  led_rgb_tOn(0,0,255,1000); //azul
+  delay(500); 
+  for (int i=0;i<200;i++)
+    led_yellow_on_t(10); //amarillo por 10*200ms
+  
+  led_rgb_tOn(255,0,210,1000); // morado 
+  delay(500); 
+  led_rgb_tOn(255,70,100,1000); // blanco
+  delay(500);
+  //    return 1;
+  //  }
+  
+}
 
 void led_rgb_tOn(int rr ,int gg, int bb, int ms) {
   int r=rr;
@@ -67,12 +92,6 @@ void led_blue_on() {
   digitalWrite(LED_GREEN,LOW);
 }
 
-void led_yellow_on() {
-  digitalWrite(LED_RED,HIGH);
-  digitalWrite(LED_BLUE,LOW);
-  digitalWrite(LED_GREEN,HIGH);
-}
-
 void led_yellow_on_t(int ms) {
     led_rgb_tOn(255,50,0,ms); //amarillo
 }
@@ -83,26 +102,4 @@ void led_off() {
   digitalWrite(LED_GREEN,LOW);
 }
 
-void print_distancias() {
-  radio_temp = (1 - MeasureAnalogN(SAMPLES, IN_DIAMETER));
-  sensorRadio = radio_max * radio_temp;
-  Serial.print("valor real: ");
-  Serial.print(analogRead(IN_DIAMETER));
-  Serial.print("valor filtrado: ");
-  Serial.print(MeasureAnalogN(SAMPLES, IN_DIAMETER));
-  Serial.print("radio ratio temp: ");
-  Serial.print(radio_temp);
-  Serial.print("radio calculado: ");
-  Serial.println(sensorRadio);
-}
 
-void print_temporal_tirada() {
-  Serial.println("%rollo; radio; giro ;  cms ");
-  Serial.print(radio_temp * 100, 0);
-  Serial.print(" ; ");
-  Serial.print(sensorRadio, 2);
-  Serial.print(" ; ");
-  Serial.print(vueltas_temp, 2);
-  Serial.print(" ; ");
-  Serial.println(gasto_temp, 1);
-}

@@ -2,10 +2,11 @@
 
 //codigo que corre al inicio del codigo, si se aprieta el boton dentro de los primeros 10 segundos mientras la led está amarilla, se entra en modo condiguracion, en caso contrario, se cargan los datos desde la memoria.
 int espera_configuracion() {
-  Serial.println("esperando configuración");
-  led_yellow_on();
+  Serial.println("Esperando configuración");
+  //led_yellow_on();
   unsigned long tiempoConfig = millis();
   while (millis() - tiempoConfig < 5000) {  //se espera el input del boton por 10 seg
+    led_yellow_on_t(10);
     if (digitalRead(PUSH_BUTTON) == 0) {
       while (digitalRead(PUSH_BUTTON) == 0)
         ;
@@ -90,9 +91,9 @@ void configuracion() {
 int calcular_promedio(int pin) {
   long suma = 0;
   for (int i = 0; i < 100; i++) {
-    led_yellow_on();
+    //led_yellow_on();
     suma += analogRead(pin);
-    delay(10);
+    led_yellow_on_t(10);
     led_off();
     delay(10);
   }
