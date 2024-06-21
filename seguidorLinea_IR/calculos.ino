@@ -14,36 +14,41 @@ void calculo() {
       //Serial.println(bool(huella));
       vueltas_temp++;
       cronometro = millis();
+      ucrono = micros();
       escritura_SD_temp();
       huella1temp = huellatemp;
+      led_green_set(huella); 
     }
 
     if (millis() - cronometro > timeout_halada * 1000) {
       //fin evento halada de papel, se hacen los cálculos respectivos, actualmente está definido con 2 segundos      
       vueltas_temp = vueltas_temp / n_octocoplador * 0.5;
-      vueltas_totales += vueltas_temp;
-      halada++;
+      vueltas_totales += vueltas_temp; //OJO esta variable parece q no es necearia, verificar ELIMINAR
+      halada++; //OJO esta variable parece q no es necearia, verificar ELIMINAR
 
-      //aqui hay que poner el cálculo de los cm usados      
-      radio_temp = (80 -distancia_rollo(MeasureAnalogN(SAMPLES,IN_DIAMETER)));
-      //sensorRadio = radio_max * radio_temp;
-      gasto_temp = 2 * M_PI * radio_temp * vueltas_temp;
-
+      //aqui hay que poner el cálculo de los metros gastados-usados      
+      //radio_temp = (80 -distancia_rollo(MeasureAnalogN(SAMPLES,IN_DIAMETER)));
+      sensorDiametro = MeasureAnalogN(SAMPLES,IN_DIAMETER);
+      diametro = distancia_rollo(sensorDiametro);
+      gasto_temp = M_PI * diametro * vueltas_temp;
 
       //escritura de datos en la tarjeta SD
       escritura_SD();
-      blink_led_green(10,100);      
       print_temporal_tirada();
-
+    }
+    if (millis() - cronometro > timeout_halada * 1000*3) {
+      // si entra acá, es porq pasó el tiempo de inactividad y al retornar se apagará el uC
       vueltas_temp = 0;
       gasto_temp = 0;
       flag_rolling = 0;
+      blink_led_green(3,200);  
     }
   }
 }
 
 double distancia_rollo(int lectura){
-  double x = lectura*5/1023;
-  double d = -6.73+62.6*x-25.2*pow(x,2)+3.79*pow(x,3);
+  double x = lectura*0.76;
+  //double d = -6.73+62.6*x-25.2*pow(x,2)+3.79*pow(x,3);
+  double d = 539*pow(x,-0.359)/1000; // en metros
   return d;
 }

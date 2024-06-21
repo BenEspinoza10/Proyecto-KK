@@ -15,13 +15,14 @@ const int chipSelect = 10;
 
 int n_octocoplador = 4;      //número de marcas que detecta el octocoplador para considerar una vuelta.
 double radio_min = 2.4;      //radio del cartón en cm
-double radio_max = 7.25;      //radio máximo de un rollo nuevo en cm
-int timeout_halada = 5.000;  //tiempo en segundos que se considera de inactividad mínima entre jalón de papel
+double radio_max = 7.5;      //radio máximo de un rollo nuevo en cm
+// OJO, BENJA LO TENÍA EN 5s PERO LO NECESITO EN 2s, PUEDE HABER ERROR
+int timeout_halada = 2.000;  //tiempo en segundos que se considera de inactividad mínima entre jalón de papel
 
 double vueltas_totales = 0, vueltas_temp = 0;  //contador de vueltas
-double sensorRadio = 0, radio_temp;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
+double sensorDiametro = 0, diametro;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
 double gasto_temp, gasto_total;                //Contador de gasto, en cm
-unsigned long cronometro;
+unsigned long cronometro, ucrono;
 int flag_rolling = 0, marca_vuelta = 0;
 int halada = 0;
 DateTime now;                                                        //variable para marcar fecha y hora

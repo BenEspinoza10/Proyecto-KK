@@ -39,6 +39,7 @@ int MeasureTurnCount(unsigned int sensingTime, int analogPort) {
   return cum;
 }
 
+// Entrega valor nomalizado de la lectura análoga, filtrada promediando varias lecturas
 float MeasureAnalogN(unsigned int samplesNumber, int analogPort) {
   //digitalWrite(OUT_DISABLE_POWER, LOW); // HABILITAR CORRIENTE PARA SENSORES
   //delay(10); // Delay para esperar que el sensor de distancia esté activo

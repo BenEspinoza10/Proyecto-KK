@@ -13,16 +13,16 @@ void setup_SD() {
   if (!SD.exists("dataKKs.csv")) {
     myFile = SD.open("dataKKs.csv", FILE_WRITE);
     if (myFile) {
-      myFile.println("Fecha,Hora,%Rollo,Radio,Vueltas,Uso(cms)");
-      Serial.println("archivo main creado");
+      myFile.println("Fecha,Hora,sDiametro,Diametro,Vueltas,Consumo(m),Lecturas");
+      Serial.println("Archivo main CSV creado");
     } else {
-      Serial.println("Fallo de apertura main");
+      Serial.println("Fallo de apertura main CSV");
       led_red_on();
       while(true);
     }
     myFile.close();
   } else {
-    Serial.println("Archivo main ya existe");
+    Serial.println("Archivo main CSV ya existe");
   }
 }
 
@@ -32,9 +32,9 @@ void escritura_SD() {
   if (myFile) {
     myFile.println("");
     myFile.print(now.day(), DEC);
-    myFile.print('/');
+    myFile.print('-');
     myFile.print(now.month(), DEC);
-    myFile.print('/');
+    myFile.print('-');
     myFile.print(now.year(), DEC);
     myFile.print(",");
     myFile.print(now.hour(), DEC);
@@ -43,7 +43,9 @@ void escritura_SD() {
     myFile.print(':');
     myFile.print(now.second(), DEC);
     myFile.print(",");    
-    myFile.print(radio_temp * 100, 0);
+    myFile.print(sensorDiametro);
+    myFile.print(",");    
+    myFile.print(diametro);
     myFile.print(",");    
     myFile.print(vueltas_temp, 2);
     myFile.print(",");
@@ -60,20 +62,27 @@ void escritura_SD_temp() {
   myFile = SD.open("dataKKs.csv", FILE_WRITE);
   DateTime nowtemp = rtc.now(); 
   if (myFile) {    
-    myFile.print(nowtemp.hour(), DEC);
+    myFile.print(now.day(), DEC);
+    myFile.print('-');
+    myFile.print(now.month(), DEC);
+    myFile.print('-');
+    myFile.print(now.year(), DEC);
+    myFile.print(",");
+    myFile.print(now.hour(), DEC);
     myFile.print(':');
-    myFile.print(nowtemp.minute(), DEC);
+    myFile.print(now.minute(), DEC);
     myFile.print(':');
-    myFile.print(nowtemp.second(), DEC);
+    myFile.print(now.second(), DEC);
     myFile.print(","); 
-    myFile.print(cronometro);       
+    myFile.print(micros()-ucrono);       
     myFile.print(",");   
     myFile.print(huella);
-    myFile.print(",|||,");  
+    myFile.print(",");  
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD temp");
     led_red_on();
     while(true);
   }
+
 }

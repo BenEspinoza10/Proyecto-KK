@@ -61,6 +61,13 @@ void led_green_on() {
   digitalWrite(LED_GREEN,HIGH);
 }
 
+void led_green_set(bool on) {
+  digitalWrite(LED_RED,LOW);
+  digitalWrite(LED_BLUE,LOW);
+  digitalWrite(LED_GREEN,on);
+}
+
+
 void led_blue_on() {
   digitalWrite(LED_RED,LOW);
   digitalWrite(LED_BLUE,HIGH);
@@ -84,23 +91,18 @@ void led_off() {
 }
 
 void print_distancias() {
-  radio_temp = (1 - MeasureAnalogN(SAMPLES, IN_DIAMETER));
-  sensorRadio = radio_max * radio_temp;
+  
   Serial.print("valor real: ");
   Serial.print(analogRead(IN_DIAMETER));
   Serial.print("valor filtrado: ");
   Serial.print(MeasureAnalogN(SAMPLES, IN_DIAMETER));
-  Serial.print("radio ratio temp: ");
-  Serial.print(radio_temp);
-  Serial.print("radio calculado: ");
-  Serial.println(sensorRadio);
+  Serial.print("diametro calculado: ");
+  Serial.println(distancia_rollo(MeasureAnalogN(SAMPLES,IN_DIAMETER)));
 }
 
 void print_temporal_tirada() {
-  Serial.println("%rollo; radio; giro ;  cms ");
-  Serial.print(radio_temp * 100, 0);
-  Serial.print(" ; ");
-  Serial.print(sensorRadio, 2);
+  Serial.println("diametro; giro ;  cms ");
+  Serial.print(diametro, 2);
   Serial.print(" ; ");
   Serial.print(vueltas_temp, 2);
   Serial.print(" ; ");
