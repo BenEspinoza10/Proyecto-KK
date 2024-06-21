@@ -43,13 +43,13 @@ void escritura_SD() {
     myFile.print(':');
     myFile.print(now.second(), DEC);
     myFile.print(",");    
-    myFile.print(sensorDiametro);
+    myFile.print(sensorDiametro,2);
     myFile.print(",");    
-    myFile.print(diametro);
+    myFile.print(diametro, 3);
     myFile.print(",");    
     myFile.print(vueltas_temp, 2);
     myFile.print(",");
-    myFile.println(gasto_temp, 1);
+    myFile.println(gasto_temp, 3);
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD main");
