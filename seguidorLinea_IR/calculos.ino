@@ -12,12 +12,12 @@ void calculo() {
     if (huella1temp != huellatemp and (huellatemp!=-1 or huella1temp!=-1)) {
       //Serial.print("Sensor: ");
       //Serial.println(bool(huella));
+      led_green_set(huella); 
       vueltas_temp++;
       cronometro = millis();
       ucrono = micros();
       escritura_SD_temp();
       huella1temp = huellatemp;
-      led_green_set(huella); 
     }
 
     if (millis() - cronometro > timeout_halada * 1000) {
@@ -33,8 +33,9 @@ void calculo() {
       gasto_temp = M_PI * diametro * vueltas_temp;
 
       //escritura de datos en la tarjeta SD
-      escritura_SD();
       print_temporal_tirada();
+      escritura_SD();
+      
     }
     if (millis() - cronometro > timeout_halada * 1000*3) {
       // si entra acá, es porq pasó el tiempo de inactividad y al retornar se apagará el uC
@@ -46,9 +47,9 @@ void calculo() {
   }
 }
 
-double distancia_rollo(int lectura){
+double distancia_rollo(double lectura){
   double x = lectura*0.76;
   //double d = -6.73+62.6*x-25.2*pow(x,2)+3.79*pow(x,3);
-  double d = 539*pow(x,-0.359)/1000; // en metros
+  double d = 539.0*pow(x,-0.359)/1000.0; // en metros
   return d;
 }

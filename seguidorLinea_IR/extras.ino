@@ -49,6 +49,15 @@ void blink_led_green(int n, int ms) {
   }  
 }
 
+void blink_led_red(int n, int ms) {
+  for (int i = 0; i < n; i++) {
+    led_red_on();  // turn the LED on (HIGH is the voltage level)
+    delay(ms);                   // wait for a second
+    led_off();  // turn the LED off by making the voltage LOW
+    delay(ms);
+  }  
+}
+
 void led_red_on() {
   digitalWrite(LED_RED,HIGH);
   digitalWrite(LED_BLUE,LOW);
@@ -101,10 +110,10 @@ void print_distancias() {
 }
 
 void print_temporal_tirada() {
-  Serial.println("diametro; giro ;  cms ");
-  Serial.print(diametro, 2);
+  Serial.println("diametro; giros; metros ");
+  Serial.print(diametro, 3);
   Serial.print(" ; ");
   Serial.print(vueltas_temp, 2);
   Serial.print(" ; ");
-  Serial.println(gasto_temp, 1);
+  Serial.println(gasto_temp, 3);
 }
