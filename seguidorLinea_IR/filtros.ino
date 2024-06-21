@@ -21,7 +21,8 @@ int MeasureDigitalT(unsigned int sensingTime, int digitalPort) {
 int MeasureTurnCount(unsigned int sensingTime, int analogPort) {
   unsigned long lapse = millis();
   int cum = analogRead(analogPort);
-
+  float analog=cum;
+  
   if (cum >= umbral) {
     cum = 1;
   } else {
@@ -36,17 +37,15 @@ int MeasureTurnCount(unsigned int sensingTime, int analogPort) {
     }
     if (cum != temp) return -1;
   }
+  sensorLinea = float(analog/1023.0);
   return cum;
 }
 
-// Entrega valor nomalizado de la lectura análoga, filtrada promediando varias lecturas
+// Entrega valor de la lectura análoga entre 0 y 1023, filtrada y promediando varias lecturas
 float MeasureAnalogN(unsigned int samplesNumber, int analogPort) {
-  //digitalWrite(OUT_DISABLE_POWER, LOW); // HABILITAR CORRIENTE PARA SENSORES
-  //delay(10); // Delay para esperar que el sensor de distancia esté activo
   float sum = 0;
   for (int i = 0; i < samplesNumber; i++) {
-    sum += analogRead(analogPort) / 1023.0;
+    sum += analogRead(analogPort);
   }
-  //digitalWrite(OUT_DISABLE_POWER, HIGH); // DESABILITAR CORRIENTE PARA SENSORES
   return (sum / samplesNumber);
 }

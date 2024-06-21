@@ -19,7 +19,6 @@ void calculo() {
       escritura_SD_temp();
       huella1temp = huellatemp;
     }
-
     if (millis() - cronometro > timeout_halada * 1000) {
       //fin evento halada de papel, se hacen los cálculos respectivos, actualmente está definido con 2 segundos      
       vueltas_temp = vueltas_temp / n_octocoplador * 0.5;
@@ -33,17 +32,16 @@ void calculo() {
       gasto_temp = M_PI * diametro * vueltas_temp;
 
       //escritura de datos en la tarjeta SD
-      print_temporal_tirada();
+      //print_temporal_tirada();
       escritura_SD();
-      
-    }
-    if (millis() - cronometro > timeout_halada * 1000*3) {
-      // si entra acá, es porq pasó el tiempo de inactividad y al retornar se apagará el uC
       vueltas_temp = 0;
       gasto_temp = 0;
       flag_rolling = 0;
-      blink_led_green(3,200);  
-    }
+      blink_led_green(2,200);
+    }    
+    //if (millis() - cronometro > timeout_halada * 1000*3) {
+    // si entra acá, es porq pasó el tiempo de inactividad y al retornar se apagará el uC
+    //}
   }
 }
 
