@@ -13,8 +13,8 @@ void setup_SD() {
   if (!SD.exists("dataKKs.csv")) {
     myFile = SD.open("dataKKs.csv", FILE_WRITE);
     if (myFile) {
-      //myFile.println("Fecha,Hora,sDiametro,Diametro,Vueltas,Consumo(m),D_uSeg,Umbral-N");
-      myFile.println("Fecha,Hora,%Rollo,Radio,Vueltas,Uso(cms)");
+      myFile.println("Fecha,Hora,sDiametro,Diametro,Vueltas,Consumo(m),DuSeg,UmbralN");
+      //myFile.println("Fecha,Hora,%Rollo,Radio,Vueltas,Uso(cms)");
       Serial.println("archivo main creado");
     } else {
       Serial.println("Fallo de apertura main");
