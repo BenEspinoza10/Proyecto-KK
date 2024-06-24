@@ -58,6 +58,25 @@ void blink_led_red(int n, int ms) {
   }  
 }
 
+void blink_led_blue(int n, int ms) {
+  for (int i = 0; i < n; i++) {
+    led_blue_on();  // turn the LED on (HIGH is the voltage level)
+    delay(ms);                   // wait for a second
+    led_off();  // turn the LED off by making the voltage LOW
+    delay(ms);
+  }  
+}
+
+void blink_led_yellow(int n, int ms) {
+  for (int i = 0; i < n; i++) {
+    led_yellow_on_t(ms);
+    led_off();  // turn the LED off by making the voltage LOW
+    delay(ms);
+  }
+}
+
+
+
 void led_red_on() {
   digitalWrite(LED_RED,HIGH);
   digitalWrite(LED_BLUE,LOW);

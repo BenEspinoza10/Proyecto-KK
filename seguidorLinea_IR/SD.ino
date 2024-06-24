@@ -4,12 +4,15 @@ void setup_SD() {
   if (!SD.begin(chipSelect)) {
 
     Serial.println("initialization of SD failed!");
-    led_red_on();
-    while(true);
+    while (true){
+      blink_led_red(3, 200);
+      blink_led_blue(1, 200);
+      delay(10000);
+    }
     return;
   }
 
-  //escritura inicial de cabecera del archivo csv
+//escritura inicial de cabecera del archivo csv
   if (!SD.exists("dataKKs.csv")) {
     myFile = SD.open("dataKKs.csv", FILE_WRITE);
     if (myFile) {
@@ -18,8 +21,12 @@ void setup_SD() {
       Serial.println("archivo main creado");
     } else {
       Serial.println("Fallo de apertura main");
-      led_red_on();
-      while(true);
+      while (true){
+        blink_led_red(2, 200);
+        blink_led_blue(2, 200);
+        delay(10000);
+      }
+      return;
     }
     myFile.close();
   } else {
@@ -54,8 +61,12 @@ void escritura_SD() {
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD main");
-    led_red_on();
-    while(true);
+    while (true){
+      blink_led_red(3, 200);
+      blink_led_blue(2, 200);
+      delay(10000);
+    }
+    return;
   }
 }
 
@@ -66,13 +77,16 @@ void escritura_SD_temp() {
     myFile.print(","); 
     myFile.print((millis()-cronometro),DEC);       
     myFile.print(",");   
-    //myFile.print(huella);
-    myFile.print(sensorLinea,DEC);
+    myFile.print(sensorLinea,4);
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD temp");
-    led_red_on();
-    while(true);
+    while (true){
+      blink_led_red(4, 200);
+      blink_led_blue(1, 200);
+      delay(10000);
+    }
+    return;
   }
 
 }
