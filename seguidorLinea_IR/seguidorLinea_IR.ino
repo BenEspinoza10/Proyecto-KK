@@ -16,8 +16,7 @@ const int chipSelect = 10;
 int n_octocoplador = 4;      //número de marcas que detecta el octocoplador para considerar una vuelta.
 double radio_min = 2.4;      //radio del cartón en cm
 double radio_max = 7.5;      //radio máximo de un rollo nuevo en cm
-// OJO, BENJA LO TENÍA EN 5s PERO LO NECESITO EN 2s, PUEDE HABER ERROR
-int timeout_halada = 2.000;  //tiempo en segundos que se considera de inactividad mínima entre jalón de papel
+int timeout_halada = 3.000;  //tiempo en segundos que se considera de inactividad mínima entre jalón de papel
 
 double vueltas_totales = 0, vueltas_temp = 0;  //contador de vueltas
 double sensorDiametro,diametro=0;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
