@@ -64,10 +64,10 @@ void escritura_SD_temp() {
   DateTime nowtemp = rtc.now(); 
   if (myFile) {    
     myFile.print(","); 
-    myFile.print((micros()-ucrono),DEC);       
+    myFile.print((millis()-cronometro),DEC);       
     myFile.print(",");   
     //myFile.print(huella);
-    myFile.print(sensorLinea,3);
+    myFile.print(sensorLinea,DEC);
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD temp");

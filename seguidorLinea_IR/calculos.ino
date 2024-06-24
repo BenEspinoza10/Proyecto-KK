@@ -1,5 +1,6 @@
 void calculo() {
   cronometro = millis();
+  //ucrono = micros();
   while (flag_rolling == 1) {
     //Leer y filtrar puerto del IR, si es ruido salir    
     huella = MeasureTurnCount(T_FILTER, IN_LINE);  //Sensa durante 1.0 mS para filtrar ruido
@@ -14,9 +15,9 @@ void calculo() {
       //Serial.println(bool(huella));
       led_green_set(huella); 
       vueltas_temp++;
-      cronometro = millis();
-      ucrono = micros();
       escritura_SD_temp();
+      cronometro = millis();
+      //ucrono = micros();
       huella1temp = huellatemp;
     }
     if (millis() - cronometro > timeout_halada * 1000) {
