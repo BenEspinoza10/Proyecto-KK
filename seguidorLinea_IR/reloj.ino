@@ -5,10 +5,12 @@ void reloj_setup() {
   if (!rtc.begin()) {
     Serial.println("Couldn't find RTC");
     Serial.flush();
-    led_red_on();
-    while (true)
-      ;
-    //while (1) delay(10);
+    
+    while (true){
+      blink_led_red(3, 200);
+      blink_led_yellow(2, 200);
+      delay(10000);
+    }
     return;
   }
 

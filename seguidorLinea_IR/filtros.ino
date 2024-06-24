@@ -21,7 +21,7 @@ int MeasureDigitalT(unsigned int sensingTime, int digitalPort) {
 int MeasureTurnCount(unsigned int sensingTime, int analogPort) {
   unsigned long lapse = millis();
   int cum = analogRead(analogPort);
-  float ar=cum;
+  double ar=cum;
   int n=1;
 
   if (cum >= umbral) {
@@ -33,7 +33,7 @@ int MeasureTurnCount(unsigned int sensingTime, int analogPort) {
   while (millis() - lapse < sensingTime) {
     int temp=analogRead(analogPort);
     n++;
-    ar=ar*(n-1)/n+temp/n;  //promedia y acumula cada muestra
+    ar=ar*(n-1)/n+double(temp)/n;  //promedia y acumula cada muestra
     
     if (temp >= umbral) {
       temp = 1;
@@ -42,7 +42,7 @@ int MeasureTurnCount(unsigned int sensingTime, int analogPort) {
     }
     if (cum != temp) return -1;
   }
-  sensorLinea=int(round(ar)); // retorna el promedio análogo y digital solo si pasó el filtro
+  sensorLinea=ar; // retorna el promedio análogo y digital, solo si pasó el filtro
   return cum;
 }
 
