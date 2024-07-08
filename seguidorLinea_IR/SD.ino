@@ -2,7 +2,6 @@
 
 void setup_SD() {
   if (!SD.begin(chipSelect)) {
-
     Serial.println("initialization of SD failed!");
     while (true){
       blink_led_red(3, 200);
@@ -14,10 +13,10 @@ void setup_SD() {
 
 //escritura inicial de cabecera del archivo csv
   if (!SD.exists("dataKKs.csv")) {
-    myFile = SD.open("dataKKs.csv", FILE_WRITE);
+    File myFile = SD.open("dataKKs.csv", FILE_WRITE);
     if (myFile) {
       myFile.println("Fecha,Hora,sDist,sDist2,sDiam,Giros,DtSeg,sLinea");
-      //myFile.println("Fecha,Hora,%Rollo,Radio,Vueltas,Uso(cms)");
+      myFile.close();
       Serial.println("archivo main creado");
     } else {
       Serial.println("Fallo de apertura main");
@@ -28,22 +27,20 @@ void setup_SD() {
       }
       return;
     }
-    myFile.close();
   } else {
     Serial.println("Archivo main ya existe");
   }
 }
 
 void escritura_SD() {
-  //por ahora escribe en una linea de texto, pero se puede formatear a un csv para lectura más ordenada  
-  myFile = SD.open("dataKKs.csv", FILE_WRITE);
-  if (myFile) {
+  File myFile = SD.open("dataKKs.csv", FILE_WRITE);
+  if (myFile) {  
     myFile.println("");
+    myFile.print(now.year(), DEC);
+    myFile.print('/');
     myFile.print(now.month(), DEC);
     myFile.print('/');
     myFile.print(now.day(), DEC);
-    myFile.print('/');
-    myFile.print(now.year(), DEC);
     myFile.print(",");
     myFile.print(now.hour(), DEC);
     myFile.print(':');
@@ -73,8 +70,8 @@ void escritura_SD() {
 }
 
 void escritura_SD_temp() {
-  myFile = SD.open("dataKKs.csv", FILE_WRITE);
-  DateTime nowtemp = rtc.now(); 
+  File myFile = SD.open("dataKKs.csv", FILE_WRITE);
+  //DateTime nowtemp = rtc.now(); 
   if (myFile) {    
     myFile.print(","); 
     myFile.print(double(millis()-cronometro)/1000.0,3);       

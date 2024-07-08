@@ -10,7 +10,6 @@ RTC_DS1307 rtc;
 #include <SPI.h>
 #include <SD.h>
 
-File myFile;
 const int chipSelect = 10;
 
 int n_octocoplador = 4;      //número de marcas que detecta el octocoplador para considerar una vuelta.
@@ -19,7 +18,7 @@ double radio_max = 7.5;      //radio máximo de un rollo nuevo en cm
 int timeout_halada = 3.000;  //tiempo en segundos que se considera de inactividad mínima entre jalón de papel
 
 double vueltas_totales = 0, vueltas_temp = 0;  //contador de vueltas
-double sensorDiametro,sensorDiametro2,diametro=0;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
+double sensorDiametro=0,sensorDiametro2=0,diametro=0;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
 double gasto_temp=0, gasto_total=0;                //Contador de gasto, en cm
 unsigned long cronometro, ucrono;
 int flag_rolling = 0, marca_vuelta = 0;
@@ -40,6 +39,7 @@ void setup() {
   setup_general();
   reloj_setup();
   setup_SD();
+
   int status_setup = espera_configuracion();
   if (status_setup == 0){
     //no se hizo setup, asi que se cargan los valores desde memoria.

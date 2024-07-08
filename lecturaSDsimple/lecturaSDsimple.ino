@@ -1,4 +1,4 @@
-Fecha,Hora,sDist,sDist2,Giros,sDiam,Uso,DtSeg,sLinea
+//Fecha,Hora,sDist,sDist2,sDiam,Giros,DtSeg,sLinea
 
 
 
@@ -19,14 +19,22 @@ void setup() {
     }
   }
   myFile = SD.open("dataKKs.csv");
-  if(myFile){
-    while (myFile.available()) {
-      Serial.write(myFile.read());      
-    }
-  }else {
-    // if the file didn't open, print an error:
+  if(!myFile){
+          // if the file didn't open, print an error:
     Serial.write("error abriendo archivo");
+    myFile.close();
+    while (true) {while (1);}
+  } else{
+    while (myFile.available()) {
+    Serial.write(myFile.read());      
+    }
+    myFile.close();
     
+   /* myFile = SD.open("dataKKs.csv", FILE_WRITE);
+    if (myFile) {
+      myFile.println("zzz,Hora,%Rollo,Radio,Vueltas,Uso(cms)");
+      myFile.close();
+    }*/
   }
 }
 
