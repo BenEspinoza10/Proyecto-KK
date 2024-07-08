@@ -16,13 +16,8 @@ void setup_SD() {
   if (!SD.exists("dataKKs.csv")) {
     myFile = SD.open("dataKKs.csv", FILE_WRITE);
     if (myFile) {
-<<<<<<< Updated upstream
-      //myFile.println("Fecha,Hora,sDiametro,Diametro,Vueltas,Consumo,DmSeg,sLinea(cms)");
-      myFile.println("Fecha,Hora,%Rollo,Radio,Vueltas,Uso(cms)");
-=======
-       myFile.println("Fecha,Hora,sDiametro,Diametro,Vueltas,Consumo,dTmS,sLinea");
+      myFile.println("Fecha,Hora,sDist,sDist2,sDiam,Giros,DtSeg,sLinea");
       //myFile.println("Fecha,Hora,%Rollo,Radio,Vueltas,Uso(cms)");
->>>>>>> Stashed changes
       Serial.println("archivo main creado");
     } else {
       Serial.println("Fallo de apertura main");
@@ -44,10 +39,10 @@ void escritura_SD() {
   myFile = SD.open("dataKKs.csv", FILE_WRITE);
   if (myFile) {
     myFile.println("");
-    myFile.print(now.day(), DEC);
-    myFile.print('-');
     myFile.print(now.month(), DEC);
-    myFile.print('-');
+    myFile.print('/');
+    myFile.print(now.day(), DEC);
+    myFile.print('/');
     myFile.print(now.year(), DEC);
     myFile.print(",");
     myFile.print(now.hour(), DEC);
@@ -58,7 +53,9 @@ void escritura_SD() {
     myFile.print(",");    
     myFile.print(sensorDiametro,1);
     myFile.print(",");    
-    myFile.print(diametro,4);
+    myFile.print(sensorDiametro2,1);
+    myFile.print(",");
+    myFile.print(diametro,1);
     myFile.print(",");    
     myFile.print(vueltas_temp,3);
     myFile.print(",");
@@ -80,9 +77,9 @@ void escritura_SD_temp() {
   DateTime nowtemp = rtc.now(); 
   if (myFile) {    
     myFile.print(","); 
-    myFile.print((millis()-cronometro),DEC);       
+    myFile.print(double(millis()-cronometro)/1000.0,3);       
     myFile.print(",");   
-    myFile.print(sensorLinea,4);
+    myFile.print(sensorLinea,DEC);
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD temp");

@@ -19,14 +19,14 @@ double radio_max = 7.5;      //radio máximo de un rollo nuevo en cm
 int timeout_halada = 3.000;  //tiempo en segundos que se considera de inactividad mínima entre jalón de papel
 
 double vueltas_totales = 0, vueltas_temp = 0;  //contador de vueltas
-double sensorDiametro,diametro=0;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
+double sensorDiametro,sensorDiametro2,diametro=0;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
 double gasto_temp=0, gasto_total=0;                //Contador de gasto, en cm
 unsigned long cronometro, ucrono;
 int flag_rolling = 0, marca_vuelta = 0;
 int halada = 0;
 DateTime now;                                                        //variable para marcar fecha y hora
 int huella, huella1 ,huellatemp, huella1temp;  //variables para algoritmo de huella digital
-double sensorLinea=0; //para almacenar la lectura análoga del sensor de línea
+int sensorLinea=0; //para almacenar la lectura análoga del sensor de línea
 int umbral = 100;   //Umbral de diferenciacion entre negro y blanco.
 int radio_min_analog = 30;      // 24mm lectura de los radios análogos
 int radio_max_analog = 800;     // 70mm

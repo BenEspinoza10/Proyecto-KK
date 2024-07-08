@@ -40,9 +40,11 @@ void calculo() {
       flag_rolling = 0;
       blink_led_green(2,200);
     }    
+    
     //if (millis() - cronometro > timeout_halada * 1000*3) {
     // si entra acá, es porq pasó el tiempo de inactividad y al retornar se apagará el uC
     //}
+    sensorDiametro2 = MeasureAnalogN(SAMPLES,IN_DIAMETER);
   }
 }
 

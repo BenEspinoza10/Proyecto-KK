@@ -42,8 +42,8 @@ int MeasureTurnCount(unsigned int sensingTime, int analogPort) {
     }
     if (cum != temp) return -1;
   }
-  sensorLinea=ar*0.001; // retorna el promedio análogo y digital, solo si pasó el filtro
-  Serial.println(sensorLinea, 4);
+  sensorLinea=int(ar); // retorna el promedio análogo y digital, solo si pasó el filtro
+  Serial.println(sensorLinea);
   return cum;
 }
 

@@ -1,3 +1,7 @@
+Fecha,Hora,sDist,sDist2,Giros,sDiam,Uso,DtSeg,sLinea
+
+
+
 #include <SPI.h>
 #include <SD.h>
 
@@ -6,7 +10,7 @@ const int chipSelect = 10;
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(115200);
   if (!SD.begin(chipSelect)) {
 
     Serial.println("initialization of SD failed!");
