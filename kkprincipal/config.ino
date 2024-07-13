@@ -25,21 +25,23 @@ void configuracion() {
   digitalWrite(OUT_DISABLE_POWER, LOW);
 
   //primero poner el rollo en la línea negra
-  Serial.println("Ingrese negro");
   led_blue_on();
-  while (digitalRead(PUSH_BUTTON) == 1)
-    ;
+  while (digitalRead(PUSH_BUTTON) == 1){
+    Serial.print("Ingrese negro: ");
+    Serial.println(analogRead(IN_LINE));
+    }
   led_off();
   int negro = calcular_promedio(IN_LINE);
   led_off();
   led_blue_on();
   while (digitalRead(PUSH_BUTTON) == 0)
-    ;
+    Serial.println(analogRead(IN_LINE));
 
   //luego hay que poner el valor del blanco
-  Serial.println("Ingrese blanco");
-  while (digitalRead(PUSH_BUTTON) == 1)
-    ;
+  while (digitalRead(PUSH_BUTTON) == 1){
+    Serial.print("Ingrese blanco: ");
+    Serial.println(analogRead(IN_LINE));
+  }
   led_off();
   int blanco = calcular_promedio(IN_LINE);
 
@@ -51,9 +53,10 @@ void configuracion() {
   led_blue_on();
 
   //luego hay que poner el rollo más grande posible
-  Serial.println("Ingrese rollo nuevo");
-  while (digitalRead(PUSH_BUTTON) == 1)
-    ;
+  while (digitalRead(PUSH_BUTTON) == 1){
+    Serial.print("Ingrese rollo nuevo: ");
+    Serial.println(analogRead(IN_DIAMETER));
+  }
   led_off();
 
 
@@ -64,9 +67,10 @@ void configuracion() {
   led_blue_on();
 
   //por ultimo hay que poner un rollo vacío
-  Serial.println("Ingrese rollo vacío");
-  while (digitalRead(PUSH_BUTTON) == 1)
-    ;
+  while (digitalRead(PUSH_BUTTON) == 1){
+    Serial.print("Ingrese rollo vacío: ");
+    Serial.println(analogRead(IN_DIAMETER));
+  }
   led_off(); 
   radio_min_analog = calcular_promedio(IN_DIAMETER);
   led_off();

@@ -13,12 +13,12 @@ void calculo() {
     if (huella1temp != huellatemp and (huellatemp!=-1 or huella1temp!=-1)) {
       //Serial.print("Sensor: ");
       //Serial.println(bool(huella));
-      led_green_set(huella); 
       vueltas_temp++;
       escritura_SD_temp();
       cronometro = millis();
       //ucrono = micros();
       huella1temp = huellatemp;
+      led_green_set(huella); 
     }
     if (millis() - cronometro > timeout_halada * 1000) {
       //fin evento halada de papel, se hacen los cálculos respectivos, actualmente está definido con 2 segundos      
@@ -40,9 +40,11 @@ void calculo() {
       flag_rolling = 0;
       blink_led_green(2,200);
     }    
+    
     //if (millis() - cronometro > timeout_halada * 1000*3) {
     // si entra acá, es porq pasó el tiempo de inactividad y al retornar se apagará el uC
     //}
+    sensorDiametro2 = MeasureAnalogN(SAMPLES,IN_DIAMETER);
   }
 }
 

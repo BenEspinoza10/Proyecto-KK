@@ -10,4 +10,5 @@ void loop() {
   Serial.print(analogRead(A1));
   Serial.print("\t");
   Serial.println(analogRead(A7));
+  delay(300);
 }
