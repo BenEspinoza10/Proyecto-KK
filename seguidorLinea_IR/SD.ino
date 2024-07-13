@@ -15,7 +15,7 @@ void setup_SD() {
   if (!SD.exists("dataKKs.csv")) {
     File myFile = SD.open("dataKKs.csv", FILE_WRITE);
     if (myFile) {
-      myFile.println("Fecha,Hora,sDist,sDist2,sDiam,Giros,DtSeg,sLinea");
+      myFile.println("Fecha,Hora,sDist,sDist2,sDiam,Giros,DtSeg");
       myFile.close();
       Serial.println("archivo main creado");
     } else {
@@ -55,8 +55,8 @@ void escritura_SD() {
     myFile.print(diametro,1);
     myFile.print(",");    
     myFile.print(vueltas_temp,3);
-    myFile.print(",");
-    myFile.print(gasto_temp,4);
+    //myFile.print(",");
+    //myFile.print(gasto_temp,4);
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD main");
@@ -75,8 +75,8 @@ void escritura_SD_temp() {
   if (myFile) {    
     myFile.print(","); 
     myFile.print(double(millis()-cronometro)/1000.0,3);       
-    myFile.print(",");   
-    myFile.print(sensorLinea,DEC);
+    //myFile.print(",");   
+    //myFile.print(sensorLinea,DEC);
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD temp");
