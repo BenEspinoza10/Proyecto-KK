@@ -53,7 +53,7 @@ void setup() {
     Serial.print(";");
     Serial.println(radio_min_analog);
   }
-  setup_SD();
+  setup_SD(status_setup);
 
   now = rtc.now();  //Se guarda el tiempo actual
   escritura_SD(); // solo para darle formato aunque sea con ceros a la primera fila
