@@ -14,7 +14,9 @@ void setup_SD() {
 //escritura inicial de cabecera del archivo csv
   if (!SD.exists("dataKKs.csv")) {
     File myFile = SD.open("dataKKs.csv", FILE_WRITE);
-    if (myFile) {
+    if (myFile) {      
+      myFile.print("id dispositivo: ");
+      myFile.println(id);      
       myFile.println("Fecha,Hora,sDist,sDist2,sDiam,Giros,DtSeg");
       myFile.close();
       Serial.println("archivo main creado");

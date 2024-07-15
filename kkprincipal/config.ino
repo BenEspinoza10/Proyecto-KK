@@ -20,16 +20,26 @@ int espera_configuracion() {
 
 void configuracion() {
   led_off();
-  
+
   pinMode(OUT_DISABLE_POWER, OUTPUT);  //Se pone el pin en escritura
   digitalWrite(OUT_DISABLE_POWER, LOW);
+  Serial.println("Ingrese el número de dispositivo");
+  while (true) {
+    if (Serial.available()) {
+      String input = Serial.readStringUntil('\n');
+      id = input.toInt();
+      Serial.print("El id ingresado es: ");
+      Serial.println(id);
+      break;
+    }
+  }
 
   //primero poner el rollo en la línea negra
   led_blue_on();
-  while (digitalRead(PUSH_BUTTON) == 1){
+  while (digitalRead(PUSH_BUTTON) == 1) {
     Serial.print("Ingrese negro: ");
     Serial.println(analogRead(IN_LINE));
-    }
+  }
   led_off();
   int negro = calcular_promedio(IN_LINE);
   led_off();
@@ -38,7 +48,7 @@ void configuracion() {
     Serial.println(analogRead(IN_LINE));
 
   //luego hay que poner el valor del blanco
-  while (digitalRead(PUSH_BUTTON) == 1){
+  while (digitalRead(PUSH_BUTTON) == 1) {
     Serial.print("Ingrese blanco: ");
     Serial.println(analogRead(IN_LINE));
   }
@@ -53,7 +63,7 @@ void configuracion() {
   led_blue_on();
 
   //luego hay que poner el rollo más grande posible
-  while (digitalRead(PUSH_BUTTON) == 1){
+  while (digitalRead(PUSH_BUTTON) == 1) {
     Serial.print("Ingrese rollo nuevo: ");
     Serial.println(analogRead(IN_DIAMETER));
   }
@@ -67,11 +77,11 @@ void configuracion() {
   led_blue_on();
 
   //por ultimo hay que poner un rollo vacío
-  while (digitalRead(PUSH_BUTTON) == 1){
+  while (digitalRead(PUSH_BUTTON) == 1) {
     Serial.print("Ingrese rollo vacío: ");
     Serial.println(analogRead(IN_DIAMETER));
   }
-  led_off(); 
+  led_off();
   radio_min_analog = calcular_promedio(IN_DIAMETER);
   led_off();
   led_blue_on();
@@ -89,7 +99,7 @@ void configuracion() {
   Serial.print(" ; ");
   Serial.println(radio_min_analog);
 
-  escribir_memoria(umbral, radio_max_analog, radio_min_analog);  //se guardan los valores en memoria eeprom
+  escribir_memoria(umbral, radio_max_analog, radio_min_analog, id);  //se guardan los valores en memoria eeprom
 }
 
 int calcular_promedio(int pin) {
@@ -104,10 +114,11 @@ int calcular_promedio(int pin) {
   return suma / 100;
 }
 
-void escribir_memoria(int umbral, int radio_max, int radio_min) {
+void escribir_memoria(int umbral, int radio_max, int radio_min, int id) {
   escribirEEPROM(0, umbral);
   escribirEEPROM(2, radio_max);
   escribirEEPROM(4, radio_min);
+  escribirEEPROM(6, id);
 }
 
 

@@ -30,6 +30,7 @@ int umbral = 100;   //Umbral de diferenciacion entre negro y blanco.
 int radio_min_analog = 30;      // 24mm lectura de los radios análogos
 int radio_max_analog = 800;     // 70mm
 
+int id;
 void wakeUp()
 {
     // Just a handler for the pin interrupt.
@@ -38,7 +39,6 @@ void wakeUp()
 void setup() {
   setup_general();
   reloj_setup();
-  setup_SD();
 
   int status_setup = espera_configuracion();
   if (status_setup == 0){
@@ -46,12 +46,14 @@ void setup() {
     umbral = leerEEPROM(0);
     radio_max_analog=leerEEPROM(2);
     radio_min_analog=leerEEPROM(4);
+    id = leerEEPROM(6);
     Serial.print(umbral);
     Serial.print(";");
     Serial.print(radio_max_analog);
     Serial.print(";");
     Serial.println(radio_min_analog);
   }
+  setup_SD();
 
   now = rtc.now();  //Se guarda el tiempo actual
   escritura_SD(); // solo para darle formato aunque sea con ceros a la primera fila
