@@ -34,11 +34,15 @@ void calculo() {
 
       //escritura de datos en la tarjeta SD
       //print_temporal_tirada();
+      led_green_set(not(huella));
       escritura_SD();
       vueltas_temp = 0;
       gasto_temp = 0;
       flag_rolling = 0;
-      blink_led_green(2,200);
+      //blink_led_green(1,100);
+      led_green_set(not(huella));
+      delay(200);
+      led_off();
     }    
     
     //if (millis() - cronometro > timeout_halada * 1000*3) {

@@ -11,5 +11,6 @@
 #define LED_GREEN 6
 #define LED_BLUE 7
 
-
 #define PUSH_BUTTON 9 //pin para el boton
+
+#define WRITE_AUX 0 //escribir o no el CSV auxiliar
