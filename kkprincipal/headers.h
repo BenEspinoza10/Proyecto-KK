@@ -13,3 +13,14 @@
 
 
 #define PUSH_BUTTON 9 //pin para el boton
+
+#define SD_FAT_TYPE 3
+#define SPI_CLOCK SD_SCK_MHZ(50)
+
+#if HAS_SDIO_CLASS
+#define SD_CONFIG SdioConfig(FIFO_SDIO)
+#elif ENABLE_DEDICATED_SPI
+#define SD_CONFIG SdSpiConfig(SD_CS_PIN, DEDICATED_SPI, SPI_CLOCK)
+#else  // HAS_SDIO_CLASS
+#define SD_CONFIG SdSpiConfig(SD_CS_PIN, SHARED_SPI, SPI_CLOCK)
+#endif  // HAS_SDIO_CLASS

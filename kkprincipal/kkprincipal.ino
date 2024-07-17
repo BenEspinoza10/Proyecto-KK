@@ -1,3 +1,6 @@
+#include <SdFat.h>
+#include <sdios.h>
+
 #include"headers.h"
 
 //código para el reloj
@@ -6,11 +9,11 @@
 
 RTC_DS1307 rtc;
 
-//codigo para lector SD
-#include <SPI.h>
-#include <SD.h>
 
-const int chipSelect = 10;
+//sd
+const int SD_CS_PIN = 10;
+
+SdFs SD;
 
 int n_octocoplador = 4;      //número de marcas que detecta el octocoplador para considerar una vuelta.
 double radio_min = 2.4;      //radio del cartón en cm
