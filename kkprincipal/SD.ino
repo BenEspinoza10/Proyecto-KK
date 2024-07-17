@@ -33,7 +33,7 @@ void setup_SD(int status_setup) {
     //se detecta que ya existe un archivo
     Serial.println("Archivo main ya existe");
     //solo hace el renombramiento de archivo si es que se hizo el setup
-    if (satus_setup) {
+    if (status_setup) {
       int i = 1;
       String newFileName;
       //se renombra con un numero unico, en caso de haber varios archivos antiguos, ni uno se pierda
