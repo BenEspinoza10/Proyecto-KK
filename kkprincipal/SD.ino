@@ -11,89 +11,117 @@ void setup_SD() {
     return;
   }
 
-//escritura inicial de cabecera del archivo csv
-  if (!SD.exists("dataKKs.csv")) {
-    File myFile = SD.open("dataKKs.csv", FILE_WRITE);
-    if (myFile) {
-      myFile.println("Fecha,Hora,sDist,sDist2,Giros,sLinea,DtSeg");
-      myFile.close();
-      Serial.println("archivo main creado");
-    } else {
-      Serial.println("Fallo de apertura main");
-      while (true){
-        blink_led_red(2, 200);
-        blink_led_blue(2, 200);
-        delay(10000);
+  if (WRITE_AUX){
+    //escritura inicial de cabecera del archivo csv
+    if (!SD.exists("dataKKs.csv")) {
+      File myFile = SD.open("dataKKs.csv", FILE_WRITE);
+      if (myFile) {
+        myFile.println("FechaHora,sDist,sDist2,Giros,sLinea,DtSeg");
+        myFile.close();
+        Serial.println("archivo main creado");
+      } else {
+        Serial.println("Fallo de apertura main");
+        while (true){
+          blink_led_red(2, 200);
+          blink_led_blue(2, 200);
+          delay(10000);
+        }
+        return;
       }
-      return;
-    }
-  } else {
-    Serial.println("Archivo main encontrado");
-  }
-  //escritura inicial de cabecera del archivo csv Auxiliar
-  if (WRITE_AUX==1) make_csv_aux();
-}
-
-void make_csv_aux(){
-  if (!SD.exists("dataKKs2.csv")) {
-    File myFile = SD.open("dataKKs2.csv", FILE_WRITE);
-    if (myFile) {
-      myFile.println("Fecha-Hora,sDist,sDist2,sLinea,DtSeg");
-      myFile.close();
-      Serial.println("Archivo aux creado");
     } else {
-      Serial.println("Fallo de apertura aux");
-      while (true){
-        blink_led_red(2, 200);
-        blink_led_blue(2, 200);
-        delay(10000);
-      }
-      return;
+      Serial.println("Archivo main encontrado");
     }
-  } else {
-    Serial.println("Archivo aux encontrado");
+  }
+  else{
+    //escritura inicial de cabecera del archivo csv
+    if (!SD.exists("BdataKKs.csv")) {
+      File myFile = SD.open("BdataKKs.csv", FILE_WRITE);
+      if (myFile) {
+        myFile.println("FechaHora,sDist,sDist2,sLinea,DtSeg");
+        myFile.close();
+        Serial.println("archivo aux creado");
+      } else {
+        Serial.println("Fallo de apertura aux");
+        while (true){
+          blink_led_red(2, 200);
+          blink_led_blue(2, 200);
+          delay(10000);
+        }
+        return;
+      }
+    } else {
+      Serial.println("Archivo aux encontrado");
+    }
   }
 }
-
+        
 void escritura_SD() {
-  File myFile = SD.open("dataKKs.csv", FILE_WRITE);
-  if (myFile) {  
-    myFile.println("");
-    myFile.print(now.year(), DEC);
-    myFile.print('/');
-    myFile.print(now.month(), DEC);
-    myFile.print('/');
-    myFile.print(now.day(), DEC);
-    myFile.print(",");
-    myFile.print(now.hour(), DEC);
-    myFile.print(':');
-    myFile.print(now.minute(), DEC);
-    myFile.print(':');
-    myFile.print(now.second(), DEC);
-    myFile.print(",");    
-    myFile.print(sensorDiametro,1);
-    myFile.print(",");    
-    myFile.print(sensorDiametro2,1);
-    myFile.print(",");
-    myFile.print(vueltas_temp,3);
-    if (bool(huella)){ //si detecta línea negra deja en blanco dos espacios en la tabla para que el CSV quede alineado en columnas para lecturas de línea negra y blanca
+  if (WRITE_AUX==1) escritura_SD_aux();
+  else{
+    //escritura inicial de cabecera del archivo csv Auxiliar
+    File myFile = SD.open("dataKKs.csv", FILE_WRITE);
+    if (myFile) {  
+      myFile.println("");
+      myFile.print(now.year(), DEC);
+      myFile.print('/');
+      myFile.print(now.month(), DEC);
+      myFile.print('/');
+      myFile.print(now.day(), DEC);
+      myFile.print(" ");
+      myFile.print(now.hour(), DEC);
+      myFile.print(':');
+      myFile.print(now.minute(), DEC);
+      myFile.print(':');
+      myFile.print(now.second(), DEC);
+      myFile.print(",");    
+      myFile.print(sensorDiametro,1);
+      myFile.print(",");    
+      myFile.print(sensorDiametro2,1);
       myFile.print(",");
-      myFile.print(",");
+      myFile.print(vueltas_temp,3);
+      if (bool(huella)){ //si detecta línea negra deja en blanco dos espacios en la tabla para que el CSV quede alineado en columnas para lecturas de línea negra y blanca
+        myFile.print(",");
+        myFile.print(",");
+      }
+      myFile.close();
+    } else {
+      Serial.println("Error abriendo archivo en la SD main");
+      while (true){
+        blink_led_red(3, 200);
+        blink_led_blue(2, 200);
+        delay(10000);
+      }
+      return;
     }
-    myFile.close();
-  } else {
-    Serial.println("Error abriendo archivo en la SD main");
-    while (true){
-      blink_led_red(3, 200);
-      blink_led_blue(2, 200);
-      delay(10000);
-    }
-    return;
   }
 }
+
+void escritura_SD_temp() {
+  if (WRITE_AUX==1) escritura_SD_aux();
+  else{
+    File myFile = SD.open("dataKKs.csv", FILE_WRITE);
+    //DateTime nowtemp = rtc.now(); 
+    if (myFile) {    
+      myFile.print(",");
+      myFile.print(sensorLinea-umbral,DEC); 
+      myFile.print(",");   
+      myFile.print(double(dT_line)/1000.0, 3);       
+      myFile.close();
+    } else {
+      Serial.println("Error abriendo archivo en la SD temp");
+      while (true){
+        blink_led_red(4, 200);
+        blink_led_blue(1, 200);
+        delay(10000);
+      }
+      return;
+    }
+  }
+}
+
 
 void escritura_SD_aux(){
-  File myFile = SD.open("dataKKs2.csv", FILE_WRITE);
+  File myFile = SD.open("BdataKKs.csv", FILE_WRITE);
   if (myFile) {  
     //myFile.println("");
     myFile.print(now.year(), DEC);
@@ -114,7 +142,7 @@ void escritura_SD_aux(){
     myFile.print(",");
     myFile.print(sensorLinea-umbral,DEC); 
     myFile.print(",");   
-    myFile.println(double(millis()-cronometro)/1000.0, 3);       
+    myFile.println(double(dT_line)/1000.0, 3);       
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD aux");
@@ -127,23 +155,3 @@ void escritura_SD_aux(){
   }
 }
 
-void escritura_SD_temp() {
-  File myFile = SD.open("dataKKs.csv", FILE_WRITE);
-  //DateTime nowtemp = rtc.now(); 
-  if (myFile) {    
-    myFile.print(",");
-    myFile.print(sensorLinea-umbral,DEC); 
-    myFile.print(",");   
-    myFile.print(double(millis()-cronometro)/1000.0, 3);       
-    myFile.close();
-  } else {
-    Serial.println("Error abriendo archivo en la SD temp");
-    while (true){
-      blink_led_red(4, 200);
-      blink_led_blue(1, 200);
-      delay(10000);
-    }
-    return;
-  }
-  if (WRITE_AUX==1) escritura_SD_aux();
-}

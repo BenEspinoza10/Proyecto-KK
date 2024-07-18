@@ -15,10 +15,10 @@ const int chipSelect = 10;
 int n_octocoplador = 4;      //número de marcas que detecta el octocoplador para considerar una vuelta.
 double radio_min = 2.4;      //radio del cartón en cm
 double radio_max = 7.5;      //radio máximo de un rollo nuevo en cm
-int timeout_halada = 2.000;  //tiempo en segundos que se considera de inactividad mínima entre jalón de papel
+int timeout_halada = 3;  //tiempo en segundos que se considera de inactividad mínima entre jalón de papel
 
 double vueltas_totales = 0, vueltas_temp = 0;  //contador de vueltas
-double sensorDiametro=1,sensorDiametro2=1,diametro=1;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
+double sensorDiametro=-555,sensorDiametro2=-555,diametro=1;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
 double gasto_temp=1, gasto_total=1;                //Contador de gasto, en cm
 unsigned long cronometro, ucrono;
 int flag_rolling = 0, marca_vuelta = 0;
@@ -29,6 +29,9 @@ int sensorLinea=0; //para almacenar la lectura análoga del sensor de línea
 int umbral = 100;   //Umbral de diferenciacion entre negro y blanco.
 int radio_min_analog = 30;      // 24mm lectura de los radios análogos
 int radio_max_analog = 800;     // 70mm
+unsigned long dT_line=0; // delta de tiempo en q detecta un cambio de color de línea
+unsigned long timeout_dTmax=0; // almacena un timeout dinámico de acuerdo a la velocidad de halada de cada usuario para determinar cuándo termina la halada
+bool vibra=0; //flag q indica si el rollo está vibrando por los giros o no
 
 void wakeUp()
 {
@@ -58,9 +61,9 @@ void setup() {
 
   Serial.println("Proyecto KKs con IR v2.0 Inicializado"); 
 
-  blink_led_green(10,100); 
+  blink_led_green(5,100); 
   led_off();   
-  delay(5000);
+  //delay(5000);
 }
 
 void loop() {   

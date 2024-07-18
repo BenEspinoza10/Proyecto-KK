@@ -95,6 +95,11 @@ void led_green_set(bool on) {
   digitalWrite(LED_GREEN,on);
 }
 
+void led_blue_set(bool on) {
+  digitalWrite(LED_RED,LOW);
+  digitalWrite(LED_BLUE,on);
+  digitalWrite(LED_GREEN,LOW);
+}
 
 void led_blue_on() {
   digitalWrite(LED_RED,LOW);
