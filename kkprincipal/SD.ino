@@ -12,8 +12,13 @@ void setup_SD(int status_setup) {
   }
 
   //escritura inicial de cabecera del archivo csv
-  if (!SD.exists("dataKKs.csv")) {
-    File myFile = SD.open("dataKKs.csv", FILE_WRITE);
+  strcpy(archivoOriginal, "dataKKs");
+  itoa(id, idstr, 10);
+  strcat(archivoOriginal, idstr);
+  strcat(archivoOriginal, ".csv");
+  Serial.println(archivoOriginal);
+  if (!SD.exists(archivoOriginal)) {
+    File myFile = SD.open(archivoOriginal, FILE_WRITE);
     if (myFile) {
       myFile.print("id dispositivo: ");
       myFile.println(id);
@@ -32,52 +37,11 @@ void setup_SD(int status_setup) {
   } else {
     //se detecta que ya existe un archivo
     Serial.println("Archivo main ya existe");
-    //solo hace el renombramiento de archivo si es que se hizo el setup
-    if (status_setup) {
-      int i = 1;
-      String newFileName;
-      //se renombra con un numero unico, en caso de haber varios archivos antiguos, ni uno se pierda
-      do {
-        newFileName = "dataKKsold" + String(i) + ".csv";
-        i++;
-      } while (SD.exists(newFileName));
-
-      //se hace el renombramiento
-      if (SD.rename("dataKKs.csv", newFileName.c_str())) {
-        Serial.println("Archivo renombrado a " + newFileName);
-      } else {
-        Serial.println("Fallo al renombrar el archivo");
-        while (true) {
-          blink_led_red(2, 200);
-          blink_led_blue(2, 200);
-          delay(10000);
-        }
-        return;
-      }
-
-      //se crea un nuevo archivo con el id del dispositivo
-      File myFile = SD.open("dataKKs.csv", FILE_WRITE);
-      if (myFile) {
-        myFile.print("id dispositivo: ");
-        myFile.println(id);
-        myFile.println("Fecha,Hora,sDist,sDist2,sDiam,Giros,DtSeg");
-        myFile.close();
-        Serial.println("archivo main creado");
-      } else {
-        Serial.println("Fallo de apertura main");
-        while (true) {
-          blink_led_red(2, 200);
-          blink_led_blue(2, 200);
-          delay(10000);
-        }
-        return;
-      }
-    }
   }
 }
 
 void escritura_SD() {
-  File myFile = SD.open("dataKKs.csv", FILE_WRITE);
+  File myFile = SD.open(archivoOriginal, FILE_WRITE);
   if (myFile) {
     myFile.println("");
     myFile.print(now.year(), DEC);
@@ -114,7 +78,7 @@ void escritura_SD() {
 }
 
 void escritura_SD_temp() {
-  File myFile = SD.open("dataKKs.csv", FILE_WRITE);
+  File myFile = SD.open(archivoOriginal, FILE_WRITE);
   //DateTime nowtemp = rtc.now();
   if (myFile) {
     myFile.print(",");
