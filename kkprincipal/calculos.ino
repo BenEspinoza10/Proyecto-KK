@@ -53,17 +53,12 @@ void calculo() {
 void escribe_fin_halada(){
   //fin evento halada de papel, se hacen los cálculos respectivos, actualmente está definido con 2 segundos      
   vueltas_temp = vueltas_temp / n_octocoplador * 0.5;
-  vueltas_totales += vueltas_temp; //OJO esta variable parece q no es necearia, verificar ELIMINAR
-  halada++; //OJO esta variable parece q no es necearia, verificar ELIMINAR
-
-  //aqui hay que poner el cálculo de los metros gastados-usados      
-  //radio_temp = (80 -distancia_rollo(MeasureAnalogN(SAMPLES,IN_DIAMETER)));
+  
   sensorDiametro = MeasureAnalogN(SAMPLES,IN_DIAMETER);
   diametro = distancia_rollo(sensorDiametro);
   gasto_temp = M_PI * diametro * vueltas_temp;
 
   //escritura de datos en la tarjeta SD
-  
   if(ENABLE_SD) escritura_SD();
   else print_temporal_tirada();
 
