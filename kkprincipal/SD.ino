@@ -164,5 +164,5 @@ void escritura_SD_aux(){
     }
     return;
   }
-}
+} 
 
