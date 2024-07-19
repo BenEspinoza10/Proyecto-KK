@@ -1,10 +1,12 @@
 void calculo() {
 
-  unsigned long cronometro_v=millis();
-  unsigned long timeout_dTmax=T_AVG_HALADA;
-  double dt_avg=0;
+  unsigned long timeout_dTmax=T_AVG_HALADA; //almacena el tiempo más grande de sensado en cada línea
+  double dt_avg=0; //almacena el promedio de tiempo de sensado en cada línea
+  bool vibra=0; //flag q indica si el rollo está vibrando por los giros o no
   cronometro = millis();
+  cronometro_v=millis();
 
+  
   while (flag_rolling == 1) {
 
     // Leer sensor de vibración, 1 si vibra, 0 si no está vibrando
@@ -20,36 +22,24 @@ void calculo() {
       continue;
     }
     huellatemp = huella;
-    gira=0;
     bool fin_halada=0;
     if (huella1temp != huellatemp and (huellatemp!=-1 or huella1temp!=-1)) {
-      gira=1;
       vueltas_temp++;
       //calcula dT de la línea anterior
       dT_line=millis()-cronometro;
 
-      //fin_halada = (dT_line>T_MAX_HALADA || millis()-cronometro_v > T_MAX_HALADA);
       fin_halada = ( dT_line>timeout_dTmax*1.5 || dt_avg>T_AVG_HALADA*3 || dT_line>T_MAX_HALADA || millis()-cronometro_v > T_MAX_HALADA);
       
       if(!fin_halada){ // si gira, vibra y el Dt de giro fue corto
-        if(ENABLE_SD) escritura_SD_temp();  //solo escribe SD si hace parte de la misma halada
+
         if(dT_line>timeout_dTmax) timeout_dTmax = dT_line; // tiempo más alto en que se detecta una transición de linea
-        //Promediar dT 
+
         dt_avg = dt_avg*(vueltas_temp-1.0)/vueltas_temp + double(dT_line)/vueltas_temp;  //promedia y acumula cada muestra
-
-        Serial.print("Dt; ");
-        Serial.print(dT_line);
-        Serial.print("; dtmax: ");
-        Serial.print(timeout_dTmax);
-        Serial.print("; dtavg: ");
-        Serial.println(dt_avg);
+        if(ENABLE_SD) escritura_SD_temp();  //solo escribe acá si hace parte de la misma halada
       }
-
       cronometro = millis();
       huella1temp = huellatemp;
       led_green_set(huella); 
-     
-      
     }
     
     if (fin_halada) {

@@ -20,5 +20,7 @@
 #define T_SLEEP 3.0 //Tiempo de espera para mdormir y medir diametro
 
 #define WRITE_AUX 0 //escribir o no el CSV auxiliar
-#define ENABLE_SD 0 // Habilitar SD con 1 o Desabilitar con 0 para desarrollo o debugg
-#define PRINT 1
+#define ENABLE_SD 1 // Habilitar SD con 1 o Desabilitar con 0 para desarrollo o debugg
+#define PRINT 0
+
+#define T_CONFIG 0 // Tiempo de espera para configurar 5000 usualmente

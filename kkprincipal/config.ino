@@ -5,7 +5,7 @@ int espera_configuracion() {
   Serial.println("Esperando configuración");
   //led_yellow_on();
   unsigned long tiempoConfig = millis();
-  while (millis() - tiempoConfig < 5000) {  //se espera el input del boton por 10 seg
+  while (millis() - tiempoConfig < T_CONFIG) {  //se espera el input del boton por 10 seg
     led_yellow_on_t(10);
     if (digitalRead(PUSH_BUTTON) == 0) {
       while (digitalRead(PUSH_BUTTON) == 0)
