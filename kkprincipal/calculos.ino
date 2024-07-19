@@ -1,8 +1,9 @@
 void calculo() {
 
   unsigned long cronometro_v=millis();
+  unsigned long timeout_dTmax=T_AVG_HALADA;
+  double dt_avg=0;
   cronometro = millis();
-  timeout_dTmax=T_AVG_HALADA;
 
   while (flag_rolling == 1) {
 
@@ -24,31 +25,45 @@ void calculo() {
     if (huella1temp != huellatemp and (huellatemp!=-1 or huella1temp!=-1)) {
       gira=1;
       vueltas_temp++;
+      //calcula dT de la línea anterior
       dT_line=millis()-cronometro;
-      fin_halada = (dT_line>T_MAX_HALADA || millis()-cronometro_v > T_MAX_HALADA);
+
+      //fin_halada = (dT_line>T_MAX_HALADA || millis()-cronometro_v > T_MAX_HALADA);
+      fin_halada = ( dT_line>timeout_dTmax*1.5 || dt_avg>T_AVG_HALADA*3 || dT_line>T_MAX_HALADA || millis()-cronometro_v > T_MAX_HALADA);
+      
       if(!fin_halada){ // si gira, vibra y el Dt de giro fue corto
-        escritura_SD_temp();  //solo escribe acá si hace parte de la misma halada
+        if(ENABLE_SD) escritura_SD_temp();  //solo escribe SD si hace parte de la misma halada
+        if(dT_line>timeout_dTmax) timeout_dTmax = dT_line; // tiempo más alto en que se detecta una transición de linea
         //Promediar dT 
-        //if(dT_line>timeout_dTmax) timeout_dTmax = dT_line; // tiempo más alto en que se detecta una transición de linea
+        dt_avg = dt_avg*(vueltas_temp-1.0)/vueltas_temp + double(dT_line)/vueltas_temp;  //promedia y acumula cada muestra
+
+        Serial.print("Dt; ");
+        Serial.print(dT_line);
+        Serial.print("; dtmax: ");
+        Serial.print(timeout_dTmax);
+        Serial.print("; dtavg: ");
+        Serial.println(dt_avg);
       }
 
       cronometro = millis();
       huella1temp = huellatemp;
       led_green_set(huella); 
      
-      Serial.print(dT_line);
-      Serial.print(" dt; ");
+      
     }
     
-    if (fin_halada || millis() - cronometro > timeout_halada * 1000) {
-      sensorDiametro2=sensorDiametro;
-      escribe_SD_fin_halada();
+    if (fin_halada) {
+      escribe_fin_halada();
+    }else if(millis()-cronometro > T_SLEEP*1000 /*&& millis()-cronometro_v > T_SLEEP*1000*/){
+      // Tras T_SLEEP segundos de inactividad lee sensor de distancia, escribe en SD y se va a mimir
+      sensorDiametro2 = MeasureAnalogN(SAMPLES,IN_DIAMETER);
+      escribe_fin_halada();
     }
   }
 }
 
 
-void escribe_SD_fin_halada(){
+void escribe_fin_halada(){
   //fin evento halada de papel, se hacen los cálculos respectivos, actualmente está definido con 2 segundos      
   vueltas_temp = vueltas_temp / n_octocoplador * 0.5;
   vueltas_totales += vueltas_temp; //OJO esta variable parece q no es necearia, verificar ELIMINAR
@@ -61,16 +76,15 @@ void escribe_SD_fin_halada(){
   gasto_temp = M_PI * diametro * vueltas_temp;
 
   //escritura de datos en la tarjeta SD
-  //print_temporal_tirada();
-  escritura_SD();
+  
+  if(ENABLE_SD) escritura_SD();
+  else print_temporal_tirada();
+
   vueltas_temp = 0;
   gasto_temp = 0;
   flag_rolling = 0;
-
-  Serial.println(dT_line);
-  Serial.print(" dt; ");
- 
-  blink_led_green(2,200); 
+  sensorDiametro2=0;
+  blink_led_blue(2,100); 
 
 }
 
