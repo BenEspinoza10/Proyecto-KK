@@ -41,7 +41,7 @@ void escritura_SD() {
     myFile.print(now.month(), DEC);
     myFile.print('/');
     myFile.print(now.day(), DEC);
-    myFile.print(",");
+    myFile.print(" ");
     myFile.print(now.hour(), DEC);
     myFile.print(':');
     myFile.print(now.minute(), DEC);
@@ -52,11 +52,7 @@ void escritura_SD() {
     myFile.print(",");    
     myFile.print(sensorDiametro2,1);
     myFile.print(",");
-    myFile.print(diametro,1);
-    myFile.print(",");    
     myFile.print(vueltas_temp,3);
-    //myFile.print(",");
-    //myFile.print(gasto_temp,4);
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD main");
@@ -74,9 +70,9 @@ void escritura_SD_temp() {
   //DateTime nowtemp = rtc.now(); 
   if (myFile) {    
     myFile.print(","); 
-    myFile.print(double(millis()-cronometro)/1000.0,3);       
-    //myFile.print(",");   
-    //myFile.print(sensorLinea,DEC);
+    myFile.print(double(dT_line)/1000.0,3);       
+    myFile.print(",");   
+    myFile.print(sensorLinea,DEC);
     myFile.close();
   } else {
     Serial.println("Error abriendo archivo en la SD temp");
