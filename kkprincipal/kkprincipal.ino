@@ -18,7 +18,7 @@ double radio_max = 7.5;      //radio máximo de un rollo nuevo en cm
 int timeout_halada = 3;  //tiempo en segundos que se considera de inactividad mínima entre jalón de papel
 
 double vueltas_totales = 0, vueltas_temp = 0;  //contador de vueltas
-double sensorDiametro=-555,sensorDiametro2=-555,diametro=1;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
+double sensorDiametro,sensorDiametro2,diametro=1;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
 double gasto_temp=1, gasto_total=1;                //Contador de gasto, en cm
 unsigned long cronometro, ucrono;
 int flag_rolling = 0, marca_vuelta = 0;
@@ -30,8 +30,8 @@ int umbral = 100;   //Umbral de diferenciacion entre negro y blanco.
 int radio_min_analog = 30;      // 24mm lectura de los radios análogos
 int radio_max_analog = 800;     // 70mm
 unsigned long dT_line=0; // delta de tiempo en q detecta un cambio de color de línea
-unsigned long timeout_dTmax=0; // almacena un timeout dinámico de acuerdo a la velocidad de halada de cada usuario para determinar cuándo termina la halada
 bool vibra=0; //flag q indica si el rollo está vibrando por los giros o no
+bool gira=0; //flag q indica si el rollo está girando
 
 void wakeUp()
 {
@@ -41,7 +41,7 @@ void wakeUp()
 void setup() {
   setup_general();
   reloj_setup();
-  setup_SD();
+  if(ENABLE_SD) setup_SD();
 
   int status_setup = espera_configuracion();
   if (status_setup == 0){
@@ -56,14 +56,15 @@ void setup() {
     Serial.println(radio_min_analog);
   }
 
+
+  sensorDiametro=VAR_INIT; // Si se lee VAR_INIT en la SD es porq se cortó la electricidad y en este momento volvió
+  sensorDiametro2=0;
+  //vueltas_temp=DEVICE_ID;  // Por si se confunden los nombres de archivos
   now = rtc.now();  //Se guarda el tiempo actual
-  escritura_SD(); // solo para darle formato aunque sea con ceros a la primera fila
+  if(ENABLE_SD) escritura_SD(); // 
 
   Serial.println("Proyecto KKs con IR v2.0 Inicializado"); 
-
   blink_led_green(5,100); 
-  led_off();   
-  //delay(5000);
 }
 
 void loop() {   
