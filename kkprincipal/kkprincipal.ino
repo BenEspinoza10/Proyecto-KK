@@ -32,8 +32,9 @@ int radio_max_analog = 800;     // 70mm
 
 int id;
 
-char archivoOriginal[20];
+char archivoOriginal[30];
 char idstr[2];
+
 void wakeUp()
 {
     // Just a handler for the pin interrupt.
