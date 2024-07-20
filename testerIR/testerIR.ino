@@ -9,14 +9,14 @@ void loop() {
   // put your main code here, to run repeatedly:
   Serial.print(analogRead(A1));
   Serial.print("\t");
-  Serial.print(analogRead(A2));
+  /*Serial.print(analogRead(A2));
   Serial.print("\t");
   Serial.print(analogRead(A3));
   Serial.print("\t");
   Serial.print(analogRead(A4));
   Serial.print("\t");
   Serial.print(analogRead(A5));
-  Serial.print("\t");
+  Serial.print("\t");*/
   Serial.println(analogRead(A7));
   delay(300);
 }
