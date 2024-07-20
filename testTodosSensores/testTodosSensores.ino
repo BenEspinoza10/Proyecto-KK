@@ -23,5 +23,5 @@ void loop() {
   Serial.print(" distancia: ");
   Serial.print(analogRead(IN_DIAMETER));
   Serial.print("botón: ");
-  Serialln.print(digitalRead(PUSH_BUTTON));
+  Serial.println(digitalRead(PUSH_BUTTON));
 }
