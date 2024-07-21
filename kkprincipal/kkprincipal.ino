@@ -41,9 +41,8 @@ void wakeUp() {
 
 void setup() {
   setup_general();
-  reloj_setup();
-  if(ENABLE_SD) setup_SD();
-
+  reloj_setup();  
+  now = rtc.now();  //Se guarda el tiempo actual
   int status_setup = espera_configuracion();  
   if (status_setup == 0) {
     //no se hizo setup, asi que se cargan los valores desde memoria.
@@ -60,12 +59,12 @@ void setup() {
   Serial.print(radio_min_analog);
   Serial.print(" id: ");
   Serial.println(id);
-
+  if(ENABLE_SD) setup_SD();
 
   sensorDiametro=VAR_INIT; // Si se lee VAR_INIT en la SD es porq se cortó la electricidad y en este momento volvió
   sensorDiametro2=0;
   //vueltas_temp=DEVICE_ID;  // Por si se confunden los nombres de archivos
-  now = rtc.now();  //Se guarda el tiempo actual
+  
   /*Serial.print(now.year(), DEC);
   Serial.print('/');
   Serial.print(now.month(), DEC);
