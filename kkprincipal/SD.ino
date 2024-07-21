@@ -15,15 +15,15 @@ void setup_SD() {
   //escritura inicial de cabecera del archivo csv
 
   itoa(id, idstr, 10);
-  char diatemp[2];
-  char mestemp[2];
-  itoa(now.day(), diatemp, 10);
-  itoa(now.month(), mestemp, 10);
+  char diatemp[3];  
+  char mestemp[3];  
+  itoa(now.day(), diatemp, 10);  
+  itoa(now.month(),mestemp, 10);    
   strcpy(archivoOriginal, idstr);
   strcat(archivoOriginal, "KK");
-  strcat(archivoOriginal, diatemp);
+  strcat(archivoOriginal, diatemp);  
   strcat(archivoOriginal, mestemp);
-  strcat(archivoOriginal, ".csv");
+  strcat(archivoOriginal, ".csv");  
   Serial.println(archivoOriginal);
   if (!SD.exists(archivoOriginal)) {
     File myFile = SD.open(archivoOriginal, FILE_WRITE);
