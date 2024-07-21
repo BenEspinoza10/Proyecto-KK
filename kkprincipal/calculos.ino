@@ -38,7 +38,7 @@ void calculo() {
       cronometro = millis();
       huella1temp = huellatemp;
       vibra=1;
-      led_green_set(huella); 
+      //led_green_set(huella); 
     }
     if (fin_halada) {
       escribe_fin_halada();
@@ -63,5 +63,5 @@ void escribe_fin_halada(){
   vueltas_temp = 0;  
   flag_rolling = 0;
   sensorDiametro2=0;
-  blink_led_blue(2,100); 
+  blink_led_green(2,100); 
 }

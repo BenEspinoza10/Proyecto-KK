@@ -54,10 +54,9 @@ void setup() {
     Serial.println(radio_min_analog);
   }
 
-
   sensorDiametro=VAR_INIT; // Si se lee VAR_INIT en la SD es porq se cortó la electricidad y en este momento volvió
-  sensorDiametro2=0;
-  //vueltas_temp=DEVICE_ID;  // Por si se confunden los nombres de archivos
+  sensorDiametro2=radio_max_analog;
+  vueltas_temp=radio_min_analog;  // 
   now = rtc.now();  //Se guarda el tiempo actual
   if(ENABLE_SD) escritura_SD(); // 
 
