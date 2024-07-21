@@ -95,6 +95,11 @@ void led_green_set(bool on) {
   digitalWrite(LED_GREEN,on);
 }
 
+void led_blue_set(bool on) {
+  digitalWrite(LED_RED,LOW);
+  digitalWrite(LED_BLUE,on);
+  digitalWrite(LED_GREEN,LOW);
+}
 
 void led_blue_on() {
   digitalWrite(LED_RED,LOW);
@@ -129,10 +134,11 @@ void print_distancias() {
 }
 
 void print_temporal_tirada() {
-  Serial.println("diametro; giros; metros ");
-  Serial.print(diametro, 3);
+  Serial.println("Sdiametro; Sdiametro2; vueltas ");
+  Serial.print(sensorDiametro,1);
   Serial.print(" ; ");
-  Serial.print(vueltas_temp, 2);
+  Serial.print(sensorDiametro2,1);
   Serial.print(" ; ");
-  Serial.println(gasto_temp, 3);
+  Serial.println(vueltas_temp,3);
 }
+

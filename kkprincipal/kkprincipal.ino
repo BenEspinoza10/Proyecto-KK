@@ -15,12 +15,12 @@ const int chipSelect = 10;
 int n_octocoplador = 4;      //número de marcas que detecta el octocoplador para considerar una vuelta.
 double radio_min = 2.4;      //radio del cartón en cm
 double radio_max = 7.5;      //radio máximo de un rollo nuevo en cm
-int timeout_halada = 3.000;  //tiempo en segundos que se considera de inactividad mínima entre jalón de papel
 
-double vueltas_totales = 0, vueltas_temp = 0;                  //contador de vueltas
-double sensorDiametro = 1, sensorDiametro2 = 1, diametro = 1;  //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
-double gasto_temp = 1, gasto_total = 1;                        //Contador de gasto, en cm
-unsigned long cronometro, ucrono;
+double vueltas_totales = 0, vueltas_temp = 0;  //contador de vueltas
+double sensorDiametro,sensorDiametro2,diametro=1;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
+double gasto_temp=1, gasto_total=1;                //Contador de gasto, en cm
+unsigned long cronometro, cronometro_v;
+unsigned long dT_line=0; // delta de tiempo en q detecta un cambio de color de línea
 int flag_rolling = 0, marca_vuelta = 0;
 int halada = 0;
 DateTime now;                                  //variable para marcar fecha y hora
@@ -42,6 +42,7 @@ void wakeUp() {
 void setup() {
   setup_general();
   reloj_setup();
+  if(ENABLE_SD) setup_SD();
 
   int status_setup = espera_configuracion();  
   if (status_setup == 0) {
@@ -60,6 +61,10 @@ void setup() {
   Serial.print(" id: ");
   Serial.println(id);
 
+
+  sensorDiametro=VAR_INIT; // Si se lee VAR_INIT en la SD es porq se cortó la electricidad y en este momento volvió
+  sensorDiametro2=0;
+  //vueltas_temp=DEVICE_ID;  // Por si se confunden los nombres de archivos
   now = rtc.now();  //Se guarda el tiempo actual
   /*Serial.print(now.year(), DEC);
   Serial.print('/');
@@ -72,15 +77,14 @@ void setup() {
   Serial.print(now.minute(), DEC);
   Serial.print(':');
   Serial.println(now.second(), DEC);*/
+  if(ENABLE_SD) escritura_SD(); // 
 
   setup_SD(status_setup);
   escritura_SD();  // solo para darle formato aunque sea con ceros a la primera fila
 
   Serial.println("Proyecto KKs con IR v2.0 Inicializado");
-
-
-  blink_led_green(10, 100);
-  led_off();
+  
+  blink_led_green(5,100); 
   delay(5000);
 }
 
