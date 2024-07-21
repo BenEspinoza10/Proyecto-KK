@@ -12,13 +12,10 @@ RTC_DS1307 rtc;
 
 const int chipSelect = 10;
 
-int n_octocoplador = 4;      //número de marcas que detecta el octocoplador para considerar una vuelta.
-double radio_min = 2.4;      //radio del cartón en cm
-double radio_max = 7.5;      //radio máximo de un rollo nuevo en cm
+const int n_octocoplador = 4;      //número de marcas que detecta el octocoplador para considerar una vuelta.
 
 double vueltas_totales = 0, vueltas_temp = 0;  //contador de vueltas
-double sensorDiametro,sensorDiametro2,diametro=1;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
-double gasto_temp=1, gasto_total=1;                //Contador de gasto, en cm
+double sensorDiametro,sensorDiametro2;            //Sensor IR que mide distancia al rollo para estimar su diámetro y cuanto uso lleva
 unsigned long cronometro, cronometro_v;
 unsigned long dT_line=0; // delta de tiempo en q detecta un cambio de color de línea
 int flag_rolling = 0, marca_vuelta = 0;
@@ -30,6 +27,9 @@ int umbral = 100;   //Umbral de diferenciacion entre negro y blanco.
 int radio_min_analog = 30;      // 24mm lectura de los radios análogos
 int radio_max_analog = 800;     // 70mm
 
+//const char nombreArchivo = "1kk207.csv";
+
+byte id = 1;
 
 void wakeUp()
 {

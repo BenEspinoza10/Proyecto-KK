@@ -128,9 +128,7 @@ void print_distancias() {
   Serial.print("valor real: ");
   Serial.print(analogRead(IN_DIAMETER));
   Serial.print("valor filtrado: ");
-  Serial.print(MeasureAnalogN(SAMPLES, IN_DIAMETER));
-  Serial.print("diametro calculado: ");
-  Serial.println(distancia_rollo(MeasureAnalogN(SAMPLES,IN_DIAMETER)));
+  Serial.println(MeasureAnalogN(SAMPLES, IN_DIAMETER));  
 }
 
 void print_temporal_tirada() {

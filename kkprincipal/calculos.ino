@@ -54,24 +54,14 @@ void escribe_fin_halada(){
   //fin evento halada de papel, se hacen los cálculos respectivos, actualmente está definido con 2 segundos      
   vueltas_temp = vueltas_temp / n_octocoplador * 0.5;
   
-  sensorDiametro = MeasureAnalogN(SAMPLES,IN_DIAMETER);
-  diametro = distancia_rollo(sensorDiametro);
-  gasto_temp = M_PI * diametro * vueltas_temp;
+  sensorDiametro = MeasureAnalogN(SAMPLES,IN_DIAMETER);  
 
   //escritura de datos en la tarjeta SD
   if(ENABLE_SD) escritura_SD();
   else print_temporal_tirada();
 
-  vueltas_temp = 0;
-  gasto_temp = 0;
+  vueltas_temp = 0;  
   flag_rolling = 0;
   sensorDiametro2=0;
   blink_led_blue(2,100); 
-}
-
-double distancia_rollo(double lectura){
-  double x = lectura*0.76;
-  //double d = -6.73+62.6*x-25.2*pow(x,2)+3.79*pow(x,3);
-  double d = 539.0*pow(x,-0.359)/1000.0; // en metros
-  return d;
 }
