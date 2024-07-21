@@ -79,8 +79,7 @@ void setup() {
   Serial.println(now.second(), DEC);*/
   if(ENABLE_SD) escritura_SD(); // 
 
-  setup_SD(status_setup);
-  escritura_SD();  // solo para darle formato aunque sea con ceros a la primera fila
+  setup_SD();
 
   Serial.println("Proyecto KKs con IR v2.0 Inicializado");
   
