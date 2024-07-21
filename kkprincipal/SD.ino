@@ -12,22 +12,17 @@ void setup_SD(int status_setup) {
   }
 
   //escritura inicial de cabecera del archivo csv
-  strcpy(archivoOriginal, "KK");
-  itoa(id, idstr, 10);  
-  char mintemp[2];
-  char horatemp[2];
+  
+  itoa(id, idstr, 10);      
   char diatemp[2];
-  char mestemp[2];
-  itoa(now.minute(),mintemp,10);
-  itoa(now.hour(), horatemp, 10);
+  char mestemp[2];    
   itoa(now.day(), diatemp, 10);
   itoa(now.month(), mestemp, 10);
-  strcat(archivoOriginal, idstr);  
-  strcat(archivoOriginal, horatemp);  
-  //strcat(archivoOriginal, mintemp);
-  //strcat(archivoOriginal, "-");
-  strcat(archivoOriginal, diatemp);  
-  strcat(archivoOriginal, mestemp);
+  strcpy(archivoOriginal, idstr);  
+  strcat(archivoOriginal, "KK");      
+  strcat(archivoOriginal, diatemp);
+  strcat(archivoOriginal, "d");      
+  strcat(archivoOriginal, mestemp);  
   strcat(archivoOriginal, ".csv");
   Serial.println(archivoOriginal);
   if (!SD.exists(archivoOriginal)) {

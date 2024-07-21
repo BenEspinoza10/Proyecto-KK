@@ -43,7 +43,7 @@ void setup() {
   setup_general();
   reloj_setup();
 
-  int status_setup = espera_configuracion();
+  int status_setup = espera_configuracion();  
   if (status_setup == 0) {
     //no se hizo setup, asi que se cargan los valores desde memoria.
     umbral = leerEEPROM(0);
@@ -61,7 +61,7 @@ void setup() {
   Serial.println(id);
 
   now = rtc.now();  //Se guarda el tiempo actual
-  Serial.print(now.year(), DEC);
+  /*Serial.print(now.year(), DEC);
   Serial.print('/');
   Serial.print(now.month(), DEC);
   Serial.print('/');
@@ -71,7 +71,7 @@ void setup() {
   Serial.print(':');
   Serial.print(now.minute(), DEC);
   Serial.print(':');
-  Serial.println(now.second(), DEC);
+  Serial.println(now.second(), DEC);*/
 
   setup_SD(status_setup);
   escritura_SD();  // solo para darle formato aunque sea con ceros a la primera fila
