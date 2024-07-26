@@ -10,10 +10,10 @@ void setup_SD() {
     }
     return;
   }
-  if (!SD.exists("2kk2107.csv")) {
-    File myFile = SD.open("2kk2107.csv", FILE_WRITE);
+  if (!SD.exists("50kk2607.csv")) {
+    File myFile = SD.open("50kk2607.csv", FILE_WRITE);
     if (myFile) {
-      myFile.println("2kk2107.csv");      
+      myFile.println("50kk2607.csv");      
       myFile.println("FechaHora,sDist,sDist2,Giros,sLinea,DtSeg");
       myFile.close();
       Serial.println("archivo main creado");
@@ -30,7 +30,7 @@ void setup_SD() {
 }
 
 void escritura_SD_temp() {
-  File myFile = SD.open("2kk2107.csv", FILE_WRITE);
+  File myFile = SD.open("50kk2607.csv", FILE_WRITE);
   //DateTime nowtemp = rtc.now();
   if (myFile) {
     myFile.print(",");
@@ -51,7 +51,7 @@ void escritura_SD_temp() {
 
 void escritura_SD() {
   //escritura inicial de cabecera del archivo csv Auxiliar
-  File myFile = SD.open("2kk2107.csv", FILE_WRITE);
+  File myFile = SD.open("50kk2607.csv", FILE_WRITE);
   if (myFile) {
     myFile.println("");
     myFile.print(now.year(), DEC);

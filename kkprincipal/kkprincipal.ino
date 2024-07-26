@@ -23,7 +23,7 @@ int halada = 0;
 DateTime now;                                                        //variable para marcar fecha y hora
 int huella, huella1 ,huellatemp, huella1temp;  //variables para algoritmo de huella digital
 int sensorLinea=0; //para almacenar la lectura análoga del sensor de línea
-int umbral = 100;   //Umbral de diferenciacion entre negro y blanco.
+int umbral = 400;   //Umbral de diferenciacion entre negro y blanco.
 int radio_min_analog = 30;      // 24mm lectura de los radios análogos
 int radio_max_analog = 800;     // 70mm
 
