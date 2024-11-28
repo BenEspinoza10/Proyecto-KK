@@ -1,7 +1,6 @@
 #include "headers.h"
 
 void setup_SD() {
-
   if (!SD.begin(chipSelect)) {
     Serial.println("initialization of SD failed!");
     while (true) {
@@ -11,26 +10,11 @@ void setup_SD() {
     }
     return;
   }
-
-  //escritura inicial de cabecera del archivo csv
-
-  itoa(id, idstr, 10);
-  char diatemp[3];  
-  char mestemp[3];  
-  itoa(now.day(), diatemp, 10);  
-  itoa(now.month(),mestemp, 10);    
-  strcpy(archivoOriginal, idstr);
-  strcat(archivoOriginal, "KK");
-  strcat(archivoOriginal, diatemp);  
-  strcat(archivoOriginal, mestemp);
-  strcat(archivoOriginal, ".csv");  
-  Serial.println(archivoOriginal);
-  if (!SD.exists(archivoOriginal)) {
-    File myFile = SD.open(archivoOriginal, FILE_WRITE);
+  if (!SD.exists("50kk2607.csv")) {
+    File myFile = SD.open("50kk2607.csv", FILE_WRITE);
     if (myFile) {
-      myFile.print("id dispositivo: ");
-      myFile.println(id);
-      myFile.println("Fecha,Hora,sDist,sDist2,sDiam,Giros,DtSeg");
+      myFile.println("50kk2607.csv");      
+      myFile.println("FechaHora,sDist,sDist2,Giros,sLinea,DtSeg");
       myFile.close();
       Serial.println("archivo main creado");
     } else {
@@ -40,6 +24,7 @@ void setup_SD() {
         blink_led_blue(2, 200);
         delay(10000);
       }
+      return;
     }
   } else {
     //se detecta que ya existe un archivo
@@ -47,47 +32,8 @@ void setup_SD() {
   }
 }
 
-
-
-void escritura_SD() {
-  File myFile = SD.open(archivoOriginal, FILE_WRITE);
-  if (myFile) {
-    myFile.println("");
-    myFile.print(now.year(), DEC);
-    myFile.print('/');
-    myFile.print(now.month(), DEC);
-    myFile.print('/');
-    myFile.print(now.day(), DEC);
-    myFile.print(",");
-    myFile.print(now.hour(), DEC);
-    myFile.print(':');
-    myFile.print(now.minute(), DEC);
-    myFile.print(':');
-    myFile.print(now.second(), DEC);
-    myFile.print(",");
-    myFile.print(sensorDiametro, 1);
-    myFile.print(",");
-    myFile.print(sensorDiametro2, 1);
-    myFile.print(",");
-    myFile.print(diametro, 1);
-    myFile.print(",");
-    myFile.print(vueltas_temp, 3);
-    //myFile.print(",");
-    //myFile.print(gasto_temp,4);
-    myFile.close();
-  } else {
-    Serial.println("Error abriendo archivo en la SD main");
-    while (true) {
-      blink_led_red(3, 200);
-      blink_led_blue(2, 200);
-      delay(10000);
-    }
-    return;
-  }
-}
-
 void escritura_SD_temp() {
-  File myFile = SD.open(archivoOriginal, FILE_WRITE);
+  File myFile = SD.open("50kk2607.csv", FILE_WRITE);
   //DateTime nowtemp = rtc.now();
   if (myFile) {
     myFile.print(",");
@@ -106,9 +52,9 @@ void escritura_SD_temp() {
   }
 }
 
-void escritura_SD_main() {
+void escritura_SD() {
   //escritura inicial de cabecera del archivo csv Auxiliar
-  File myFile = SD.open(archivoOriginal, FILE_WRITE);
+  File myFile = SD.open("50kk2607.csv", FILE_WRITE);
   if (myFile) {
     myFile.println("");
     myFile.print(now.year(), DEC);
