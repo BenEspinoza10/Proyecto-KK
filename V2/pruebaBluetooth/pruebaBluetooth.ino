@@ -10,6 +10,7 @@
 #define SD_CS_PIN 10  // Pin CS de la tarjeta SD
 
 SoftwareSerial bluetooth(BT_RX, BT_TX);  // Crear objeto SoftwareSerial para Bluetooth
+File myFile;
 
 void setup() {
   // Configurar comunicación serial para debug y Bluetooth
@@ -18,7 +19,7 @@ void setup() {
   Serial.println("Inicializando...");
 
   // Inicializar la tarjeta SD
-  if (!SD.begin(SD_CS_PIN)) {
+  if (!SD.begin(10)) {
     Serial.println("Error al inicializar la tarjeta SD.");
     while (1)
       ;  // Detener si no se encuentra la SD
@@ -28,8 +29,8 @@ void setup() {
 
 void loop() {
   // Abrir el archivo CSV
-  File myFile = SD.open("archivo.csv");
-  if (bluetooth.available()) {
+  if (bluetooth.available()>0) {
+    myFile = SD.open("a.csv");
     if (myFile) {
       Serial.println("Enviando datos al Bluetooth...");
       bluetooth.println("Iniciando transferencia de archivo...");
@@ -48,8 +49,6 @@ void loop() {
       Serial.println("No se pudo abrir el archivo CSV.");
       bluetooth.println("Error: No se pudo abrir el archivo CSV.");
     }
-
-    delay(5000);  // Esperar 5 segundos antes de intentar de nuevo
-    
+    delay(5000);  // Esperar 5 segundos antes de intentar de nuevo    
   }
 }

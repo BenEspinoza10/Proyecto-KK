@@ -26,9 +26,6 @@ void setup_SD() {
       }
       return;
     }
-  } else {
-    //se detecta que ya existe un archivo
-    Serial.println("Archivo main ya existe");
   }
 }
 
