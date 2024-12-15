@@ -9,10 +9,10 @@
 Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
 
 // Configuración del SD
-#define SD_CS_PIN 4
+#define SD_CS_PIN 10
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Inicializando emisor...");
 
   // Inicializar SD
@@ -30,86 +30,51 @@ void setup() {
     while (1);
   }
   nfc.SAMConfig();
-  Serial.println("PN532 inicializado en modo emisor.");
+  Serial.println("PN532 inicializado.");
 }
 
 void loop() {
-  File myFile = SD.open("a.csv");
-  if (!myFile) {
-    Serial.println("Error al abrir el archivo CSV.");
-    delay(5000);
-    return;
-  }
+  Serial.println("Esperando receptor NFC (celular)...");
 
-  // Enviar marcador de inicio
-  enviarMarcador("START");
+  // Intentar detectar un dispositivo NFC cercano
+  uint8_t success = nfc.inListPassiveTarget();
+  if (success) {
+    Serial.println("Celular NFC detectado. Iniciando transmisión...");
 
-  // Leer y enviar datos en bloques
-  uint8_t packetID = 0;
-  while (myFile.available()) {
-    char buffer[4];
-    memset(buffer, 0, sizeof(buffer)); // Limpiar el buffer
-    for (int i = 0; i < 4 && myFile.available(); i++) {
-      buffer[i] = myFile.read();
+    // Abrir el archivo CSV
+    File myFile = SD.open("a.csv");
+    if (!myFile) {
+      Serial.println("Error al abrir el archivo CSV.");
+      delay(5000);
+      return;
     }
 
-    // Enviar paquete con ID
-    enviarPaquete(buffer, packetID);
-    packetID++;
+    // Leer y enviar datos en bloques
+    while (myFile.available()) {
+      char buffer[16];
+      memset(buffer, 0, sizeof(buffer)); // Limpiar el buffer
+      for (int i = 0; i < 16 && myFile.available(); i++) {
+        buffer[i] = myFile.read();
+      }
+
+      // Enviar paquete de datos
+      enviarPaquete(buffer);
+      delay(50); // Pequeña pausa para evitar saturación
+    }
+
+    Serial.println("Transmisión completada.");
+    myFile.close();
   }
 
-  // Enviar marcador de fin
-  enviarMarcador("END");
-
-  Serial.println("Transferencia completada.");
-  myFile.close();
-
-  delay(10000);  // Esperar 10 segundos antes de intentar una nueva transferencia
+  delay(1000);  // Esperar antes de volver a intentar detectar
 }
 
-void enviarMarcador(const char *marcador) {
-  bool enviado = false;
-
-  while (!enviado) {
-    uint8_t success = nfc.ntag2xx_WritePage(4, (uint8_t *)marcador);
-    if (success) {
-      delay(50);
-      uint8_t ack[16];
-      nfc.ntag2xx_ReadPage(5, ack);
-      if (strncmp((char *)ack, "ACK", 3) == 0) {
-        enviado = true;
-      } else {
-        Serial.println("Reenviando marcador...");
-      }
-    } else {
-      Serial.println("Error enviando marcador. Reintentando...");
-    }
-  }
-}
-
-void enviarPaquete(const char *data, uint8_t id) {
-  char packet[16];
-  memset(packet, 0, sizeof(packet));
-  snprintf(packet, sizeof(packet), "%03d%s", id, data); // Incluir ID del paquete
-
-  bool enviado = false;
-
-  while (!enviado) {
-    uint8_t success = nfc.ntag2xx_WritePage(4, (uint8_t *)packet);
-    if (success) {
-      delay(50);
-      uint8_t ack[16];
-      nfc.ntag2xx_ReadPage(5, ack);
-      if (strncmp((char *)ack, "ACK", 3) == 0) {
-        enviado = true;
-        Serial.print("Paquete ");
-        Serial.print(id);
-        Serial.println(" enviado correctamente.");
-      } else {
-        Serial.println("Reenviando paquete...");
-      }
-    } else {
-      Serial.println("Error enviando paquete. Reintentando...");
-    }
+void enviarPaquete(const char *data) {
+  uint8_t success = nfc.ntag2xx_WritePage(4, (uint8_t *)data);
+  if (success) {
+    Serial.print("Paquete enviado: ");
+    Serial.println(data);
+  } else {
+    Serial.println("Error enviando paquete. Reintentando...");
   }
 }

@@ -49,6 +49,6 @@ void loop() {
       Serial.println("No se pudo abrir el archivo CSV.");
       bluetooth.println("Error: No se pudo abrir el archivo CSV.");
     }
-    delay(5000);  // Esperar 5 segundos antes de intentar de nuevo    
+    while(bluetooth.read() >= 0);    
   }
 }

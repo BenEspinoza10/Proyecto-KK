@@ -9,10 +9,10 @@
 Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
 
 // Configuración del SD
-#define SD_CS_PIN 4
+#define SD_CS_PIN 10
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Inicializando receptor...");
 
   // Inicializar SD
@@ -34,6 +34,7 @@ void setup() {
 }
 
 void loop() {
+  // Crear o abrir archivo para escritura
   File myFile = SD.open("recibido.csv", FILE_WRITE);
   if (!myFile) {
     Serial.println("Error al abrir archivo para escritura.");
@@ -41,43 +42,16 @@ void loop() {
   }
 
   uint8_t buffer[16];  // Tamaño de un bloque de datos
-  bool receiving = false;
-
-  while (true) {
-    if (nfc.ntag2xx_ReadPage(4, buffer)) {
-      String packet = "";
-      for (int i = 0; i < 4; i++) {
-        packet += (char)buffer[i];
-      }
-
-      // Detectar inicio de transmisión
-      if (packet.startsWith("START")) {
-        receiving = true;
-        Serial.println("Inicio de transmisión detectado.");
-        continue;
-      }
-
-      // Detectar fin de transmisión
-      if (packet.startsWith("END")) {
-        Serial.println("Fin de transmisión detectado.");
-        break;
-      }
-
-      // Guardar datos si estamos recibiendo
-      if (receiving) {
-        myFile.print(packet);  // Guardar datos en el archivo
-        Serial.print(packet);  // Mostrar datos en el monitor serial
-      }
-
-      // Enviar ACK al emisor
-      nfc.ntag2xx_WritePage(5, (uint8_t *)"ACK ");
-    } else {
-      // Enviar NACK si la lectura falló
-      nfc.ntag2xx_WritePage(5, (uint8_t *)"NACK");
+  if (nfc.ntag2xx_ReadPage(4, buffer)) {
+    for (int i = 0; i < 4; i++) {
+      myFile.write(buffer[i]);  // Guardar datos en SD
+      Serial.write(buffer[i]); // Mostrar datos recibidos
     }
+    Serial.println("\nDatos guardados.");
+  } else {
+    Serial.println("Error al leer datos.");
   }
 
   myFile.close();  // Cerrar archivo
-  Serial.println("Archivo guardado correctamente.");
-  delay(5000);
+  delay(1000);     // Esperar antes de intentar leer de nuevo
 }
