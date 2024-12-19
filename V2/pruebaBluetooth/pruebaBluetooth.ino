@@ -14,7 +14,7 @@ File myFile;
 
 void setup() {
   // Configurar comunicación serial para debug y Bluetooth
-  Serial.begin(115200);     // Comunicación Serial USB para debug
+  Serial.begin(9600);     // Comunicación Serial USB para debug
   bluetooth.begin(9600);  // Comunicación Serial con el HC-05
   Serial.println("Inicializando...");
 
