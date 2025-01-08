@@ -1,5 +1,7 @@
 #include "headers.h"
 
+
+//Revisar todos los filtros
 int MeasureDigitalN(unsigned int samplesNumber, int digitalPort) {
   int cum = digitalRead(digitalPort);
 

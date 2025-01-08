@@ -1,3 +1,4 @@
+//TODO: ESTAS DOS FUNCIONES HAY QUE REVISARLAS 
 void calculo() {
 
   unsigned long timeout_dTmax=T_AVG_HALADA; //almacena el tiempo más grande de sensado en cada línea
@@ -8,7 +9,6 @@ void calculo() {
 
   
   while (flag_rolling == 1) {
-
     // Leer sensor de vibración, 1 si vibra, 0 si no está vibrando
     vibra=MeasureDigitalN(SAMPLES, IN_INTERRUPT);
     if (vibra==1) {

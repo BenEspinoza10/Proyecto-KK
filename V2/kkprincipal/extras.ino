@@ -2,10 +2,10 @@
 void setup_general() {
   Serial.begin(115200);
   while (!Serial)
-    ;
-  pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(IN_INTERRUPT, INPUT);
-  pinMode(PUSH_BUTTON, INPUT_PULLUP);
+    ;  
+  pinMode(HALL, INPUT);
+  pinMode(OPEN_SENSOR, INPUT);
+  pinMode(OUT_DISABLE_POWER, OUTPUT);
   pinMode(LED_RED, OUTPUT);
   pinMode(LED_BLUE, OUTPUT);
   pinMode(LED_GREEN, OUTPUT);

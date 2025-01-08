@@ -29,7 +29,7 @@ void setup() {
 
 void loop() {
   // Abrir el archivo CSV
-  if (bluetooth.available()>0) {
+  if (bluetooth.available() > 0) {
     myFile = SD.open("a.csv");
     if (myFile) {
       Serial.println("Enviando datos al Bluetooth...");
@@ -49,6 +49,7 @@ void loop() {
       Serial.println("No se pudo abrir el archivo CSV.");
       bluetooth.println("Error: No se pudo abrir el archivo CSV.");
     }
-    while(bluetooth.read() >= 0);    
+    while (bluetooth.read() >= 0)
+      ;
   }
 }

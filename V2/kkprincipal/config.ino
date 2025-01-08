@@ -1,5 +1,8 @@
 #include "headers.h"
 
+
+//En principio esto no lo vamos a utilizar pero lo dejo ahi por si acaso
+
 //codigo que corre al inicio del codigo, si se aprieta el boton dentro de los primeros 10 segundos mientras la led está amarilla, se entra en modo condiguracion, en caso contrario, se cargan los datos desde la memoria.
 int espera_configuracion() {
   Serial.println("Esperando configuración");
