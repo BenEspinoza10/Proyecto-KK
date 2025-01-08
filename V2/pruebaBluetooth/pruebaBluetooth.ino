@@ -3,8 +3,8 @@
 #include <SoftwareSerial.h>
 
 // Pines para SoftwareSerial
-#define BT_RX 4  // Pin RX del HC-05
-#define BT_TX 5  // Pin TX del HC-05
+#define BT_RX A0  // Pin TX del HC-05
+#define BT_TX A1  // Pin RX del HC-05
 
 // Pin para el módulo SD
 #define SD_CS_PIN 10  // Pin CS de la tarjeta SD
